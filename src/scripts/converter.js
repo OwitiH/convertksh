@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const kesResultDisplay = document.getElementById('kes-result');
   const exchangeRateDisplay = document.getElementById('exchange-rate');
   const presetButtons = document.querySelectorAll('.preset-amount');
+  const refreshButton = document.getElementById('refresh-rate');
+  const lastUpdatedDisplay = document.getElementById('last-updated');
 
-  if (!usdAmountInput || !kesResultDisplay || !exchangeRateDisplay || !presetButtons.length) {
+  if (!usdAmountInput || !kesResultDisplay || !exchangeRateDisplay || !presetButtons.length || !refreshButton) {
     console.error('Converter script: One or more required DOM elements are missing.');
     return;
   }
@@ -13,21 +15,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchRateAndConvert() {
     try {
-      const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json');
+      // Add timestamp to prevent caching
+      const timestamp = new Date().getTime();
+      const response = await fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json?t=${timestamp}`);
       if (!response.ok) throw new Error('Network response was not ok');
       
       const data = await response.json();
-      // This API uses a different structure: data.usd.kes
       if (data.usd && data.usd.kes) {
         usdToKesRate = data.usd.kes;
-        exchangeRateDisplay.textContent = `1 USD ≈ ${usdToKesRate.toFixed(2)} KES`;
+        exchangeRateDisplay.textContent = `1 USD = ${usdToKesRate.toFixed(2)} KES`;
+        lastUpdatedDisplay.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
         updateConversion();
       } else {
         throw new Error('Invalid data from API');
       }
     } catch (error) {
       console.error('Failed to fetch exchange rate:', error);
-      exchangeRateDisplay.textContent = 'Could not fetch rate.';
+      exchangeRateDisplay.textContent = 'Error fetching rate. Try refreshing.';
       kesResultDisplay.textContent = 'Error';
     }
   }
@@ -54,5 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Initial fetch
   fetchRateAndConvert();
+
+  // Add refresh button click handler
+  refreshButton.addEventListener('click', fetchRateAndConvert);
+
+  // Auto-refresh every 5 minutes (300000 ms)
+  setInterval(fetchRateAndConvert, 300000);
 });
