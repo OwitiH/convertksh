@@ -1,0 +1,307 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+
+// Define constants for fees and margins (can be adjusted)
+const PAYPAL_PERCENTAGE_FEE = 0.044; // 4.4%
+const PAYPAL_FIXED_FEE_USD = 0.30; // $0.30
+const EXCHANGE_RATE_MARGIN = 0.025; // 2.5% margin (PayPal gives a worse rate)
+
+// SEO Metadata
+const pageTitle = 'PayPal to MPESA Calculator | How Much Will I Get in KES?';
+const pageDescription = `Calculate exactly how much KES you'll receive from PayPal after their 4.4% + $0.30 fee and exchange rate margin. See your net MPESA amount before withdrawing.`;
+const canonicalUrl = '/paypal-to-mpesa';
+
+// FAQ Schema Data
+const faqItems = [
+  {
+    question: 'How much does PayPal charge for sending money to Kenya?',
+    answer: 'PayPal typically charges 4.4% + $0.30 USD per transaction when sending money to Kenya. Our calculator accounts for these fees to show your estimated MPESA amount.'
+  },
+  {
+    question: 'How long does it take to transfer from PayPal to MPESA?',
+    answer: 'Transfers from PayPal to MPESA usually take 1-3 business days, but processing times may vary depending on your bank and the time of submission.'
+  },
+  {
+    question: 'Is there a maximum amount I can withdraw from PayPal to MPESA?',
+    answer: 'Yes, PayPal has withdrawal limits that vary by account type and verification status. Standard accounts typically have a limit of $10,000 per transaction.'
+  },
+  {
+    question: 'Why is the exchange rate different from Google?',
+    answer: 'PayPal applies their own exchange rate which includes a margin above the interbank rate. Our calculator uses current PayPal rates to give you the most accurate estimate possible.'
+  },
+  {
+    question: 'Are there any hidden fees when withdrawing from PayPal to MPESA?',
+    answer: 'Our calculator shows all standard PayPal fees (4.4% + $0.30). However, your bank or mobile money provider might charge additional fees for receiving international transfers.'
+  }
+];
+
+// Structured Data for Calculator
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "HowToTool",
+  "name": "PayPal to MPESA Calculator",
+  "description": pageDescription,
+  "url": `https://yourdomain.com${canonicalUrl}`,
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Enter Amount",
+      "text": "Enter the USD amount you want to withdraw from PayPal"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "View Results",
+      "text": "See the estimated KES amount after PayPal fees and exchange rate"
+    }
+  ],
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": PAYPAL_PERCENTAGE_FEE * 100 + "% + $" + PAYPAL_FIXED_FEE_USD.toFixed(2)
+  },
+  "supply": {
+    "@type": "HowToSupply",
+    "name": "PayPal Account"
+  },
+  "tool": {
+    "@type": "HowToTool",
+    "name": "MPESA Mobile Money"
+  }
+};
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  structuredData={structuredData}
+>
+  <main class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <a href="/" class="text-emerald-400 hover:text-emerald-300 mb-6 inline-block">&larr; Back to Converters</a>
+      <h1 class="text-4xl font-bold text-center mb-2 text-emerald-400">PayPal to MPESA Calculator</h1>
+      <p class="text-center text-gray-400 mb-4">See exactly how much KES you'll get after PayPal's 4.4% + $0.30 fee and exchange rate margins.</p>
+
+      <!-- Last Updated & Refresh Button -->
+      <div class="flex justify-between items-center mb-4">
+        <div id="last-updated" class="text-sm text-gray-400">Updating rates...</div>
+        <button id="refresh-rates" class="flex items-center text-emerald-400 hover:text-emerald-300 text-sm font-medium">
+          <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <svg id="loading-icon" class="hidden animate-spin h-4 w-4 mr-1 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Refresh Rates
+        </button>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label for="paypal-usd-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount in USD (sent to PayPal)</label>
+          <input type="number" id="paypal-usd-amount" placeholder="e.g., 100" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg">
+        </div>
+
+        <div class="text-center my-6">
+          <p class="text-gray-400">You will receive approximately</p>
+          <p id="mpesa-kes-result" class="text-4xl font-bold text-emerald-400">0.00 KES</p>
+        </div>
+
+        <div class="text-sm text-gray-400 space-y-2 mt-6">
+          <p><strong>Calculation Breakdown (Estimates):</strong></p>
+          <div class="grid grid-cols-2 gap-2">
+            <div>Current USD to KES Rate:</div>
+            <div id="current-rate-display" class="text-right font-medium text-gray-300">Fetching...</div>
+            
+            <div>PayPal Fee (4.4% + $0.30):</div>
+            <div id="paypal-fee-display" class="text-right font-medium text-gray-300">-</div>
+            
+            <div>Amount After PayPal Fee:</div>
+            <div id="usd-after-paypal-fee" class="text-right font-medium text-gray-300">-</div>
+            
+            <div>Exchange Rate Margin ({EXCHANGE_RATE_MARGIN*100}%):</div>
+            <div id="margin-display" class="text-right font-medium text-gray-300">-</div>
+            
+            <div>Effective Exchange Rate:</div>
+            <div id="effective-rate-display" class="text-right font-medium text-emerald-400">-</div>
+          </div>
+          <p id="last-updated-time" class="text-xs text-gray-500 mt-2 text-right"></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script define:vars={{ PAYPAL_PERCENTAGE_FEE, PAYPAL_FIXED_FEE_USD, EXCHANGE_RATE_MARGIN }}>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const usdAmountInput = document.getElementById('paypal-usd-amount');
+      const kesResultDisplay = document.getElementById('mpesa-kes-result');
+      const currentRateDisplay = document.getElementById('current-rate-display');
+      const paypalFeeDisplay = document.getElementById('paypal-fee-display');
+      const usdAfterPaypalFeeDisplay = document.getElementById('usd-after-paypal-fee');
+      const effectiveRateDisplay = document.getElementById('effective-rate-display');
+      const marginDisplay = document.getElementById('margin-display');
+      const lastUpdatedTime = document.getElementById('last-updated-time');
+      const refreshButton = document.getElementById('refresh-rates');
+      const refreshIcon = document.getElementById('refresh-icon');
+      const loadingIcon = document.getElementById('loading-icon');
+      const lastUpdatedDisplay = document.getElementById('last-updated');
+
+      // State
+      let marketUsdToKesRate = null;
+      let refreshInterval;
+      const REFRESH_INTERVAL_MS = 30000; // 30 seconds
+
+      // Format number with commas and 2 decimal places
+      function formatNumber(num, isCurrency = false) {
+        if (isCurrency) {
+          return new Intl.NumberFormat('en-US', { 
+            style: 'decimal',
+            minimumFractionDigits: 2, 
+            maximumFractionDigits: 2 
+          }).format(num);
+        }
+        return num.toLocaleString('en-US', { 
+          minimumFractionDigits: 2, 
+          maximumFractionDigits: 2 
+        });
+      }
+
+      // Update the last updated timestamp
+      function updateLastUpdatedTime() {
+        const now = new Date();
+        const options = { 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit',
+          hour12: true,
+          timeZone: 'Africa/Nairobi' // East Africa Time
+        };
+        const timeString = now.toLocaleTimeString('en-US', options);
+        lastUpdatedTime.textContent = `Last updated: ${timeString} EAT`;
+      }
+
+      // Toggle loading state
+      function setLoading(isLoading) {
+        if (isLoading) {
+          refreshIcon.classList.add('hidden');
+          loadingIcon.classList.remove('hidden');
+          refreshButton.disabled = true;
+        } else {
+          refreshIcon.classList.remove('hidden');
+          loadingIcon.classList.add('hidden');
+          refreshButton.disabled = false;
+        }
+      }
+
+      // Fetch the latest exchange rate
+      async function fetchMarketRate() {
+        setLoading(true);
+        try {
+          const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json?t=' + Date.now());
+          
+          if (!response.ok) {
+            throw new Error('Network response was not ok for market rate');
+          }
+          
+          const data = await response.json();
+          
+          if (data.usd && data.usd.kes) {
+            marketUsdToKesRate = data.usd.kes;
+            currentRateDisplay.textContent = `1 USD = ${formatNumber(marketUsdToKesRate)} KES`;
+            updateLastUpdatedTime();
+            updateCalculation();
+          } else {
+            throw new Error('Invalid market rate data from API');
+          }
+        } catch (error) {
+          console.error('Failed to fetch market exchange rate:', error);
+          currentRateDisplay.textContent = 'Error fetching rate';
+          lastUpdatedTime.textContent = 'Failed to update. Click refresh to try again.';
+          lastUpdatedTime.classList.add('text-red-400');
+          setTimeout(() => lastUpdatedTime.classList.remove('text-red-400'), 3000);
+          
+          if (kesResultDisplay) {
+            kesResultDisplay.textContent = 'Error loading rates';
+          }
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function updateCalculation() {
+        if (marketUsdToKesRate === null) return;
+
+        const usdAmount = parseFloat(usdAmountInput.value);
+        if (isNaN(usdAmount) || usdAmount <= 0) {
+          kesResultDisplay.textContent = '0.00 KES';
+          paypalFeeDisplay.textContent = '-';
+          usdAfterPaypalFeeDisplay.textContent = '-';
+          effectiveRateDisplay.textContent = '-';
+          marginDisplay.textContent = '-';
+          return;
+        }
+
+        // Calculate PayPal fee
+        const paypalFee = (usdAmount * PAYPAL_PERCENTAGE_FEE) + PAYPAL_FIXED_FEE_USD;
+        paypalFeeDisplay.textContent = `$${formatNumber(paypalFee)}`;
+
+        const usdAfterFee = usdAmount - paypalFee;
+        if (usdAfterFee <= 0) {
+            kesResultDisplay.textContent = '0.00 KES (Fee exceeds amount)';
+            usdAfterPaypalFeeDisplay.textContent = `$${formatNumber(usdAfterFee)}`;
+            effectiveRateDisplay.textContent = '-';
+            marginDisplay.textContent = '-';
+            return;
+        }
+        
+        usdAfterPaypalFeeDisplay.textContent = `$${formatNumber(usdAfterFee)}`;
+
+        // Apply exchange rate margin
+        const marginAmount = marketUsdToKesRate * EXCHANGE_RATE_MARGIN;
+        const effectiveRate = marketUsdToKesRate - marginAmount;
+        
+        marginDisplay.textContent = `-${formatNumber(marginAmount)} KES`;
+        effectiveRateDisplay.textContent = `1 USD = ${formatNumber(effectiveRate)} KES`;
+
+        // Calculate final KES amount
+        const kesAmount = usdAfterFee * effectiveRate;
+        kesResultDisplay.textContent = `${formatNumber(kesAmount, true)} KES`;
+      }
+
+      // Event Listeners
+      usdAmountInput.addEventListener('input', updateCalculation);
+      
+      refreshButton.addEventListener('click', () => {
+        fetchMarketRate();
+      });
+
+      // Initial fetch
+      fetchMarketRate();
+
+      // Set up auto-refresh
+      refreshInterval = setInterval(fetchMarketRate, REFRESH_INTERVAL_MS);
+
+      // Clean up interval when page is hidden to save resources
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearInterval(refreshInterval);
+        } else {
+          // Restart interval and refresh data when page becomes visible again
+          fetchMarketRate();
+          clearInterval(refreshInterval);
+          refreshInterval = setInterval(fetchMarketRate, REFRESH_INTERVAL_MS);
+        }
+      });
+
+      // Clean up interval when component unmounts
+      window.addEventListener('beforeunload', () => {
+        clearInterval(refreshInterval);
+      });
+    });
+  </script>
+  <!-- FAQ Schema for Rich Results -->
+  <FAQSchema faqItems={faqItems} />
+</Layout>

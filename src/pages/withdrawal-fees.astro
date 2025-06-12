@@ -1,0 +1,201 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+
+// M-PESA Agent Withdrawal Fee Bands (KES)
+// Source: Safaricom official rates
+const MPESA_AGENT_FEES = [
+  { min: 50, max: 100, fee: 11 },
+  { min: 101, max: 500, fee: 29 },
+  { min: 501, max: 1000, fee: 34 },
+  { min: 1001, max: 1500, fee: 41 },
+  { min: 1501, max: 2500, fee: 52 },
+  { min: 2501, max: 3500, fee: 69 },
+  { min: 3501, max: 5000, fee: 85 },
+  { min: 5001, max: 7500, fee: 113 },
+  { min: 7501, max: 10000, fee: 160 },
+  { min: 10001, max: 15000, fee: 182 },
+  { min: 15001, max: 20000, fee: 203 },
+  { min: 20001, max: 35000, fee: 278 },
+  { min: 35001, max: 50000, fee: 309 },
+  { min: 50001, max: 250000, fee: 335 },
+];
+
+// SEO Metadata
+const pageTitle = 'M-PESA Withdrawal Fees Calculator | Kenya 2025';
+const pageDescription = 'Calculate exact M-PESA withdrawal charges in Kenya. See agent fees, bank charges, and ATM costs before you withdraw your money. Updated with 2025 rates.';
+const canonicalUrl = '/withdrawal-fees';
+
+// FAQ Schema Data
+const faqItems = [
+  {
+    question: 'How much does M-PESA charge for withdrawals?',
+    answer: 'M-PESA agent withdrawal fees range from KES 11 for amounts between KES 50-100, up to KES 335 for amounts between KES 50,001-250,000. Our calculator shows the exact fee for your withdrawal amount.'
+  },
+  {
+    question: 'Are there any limits on M-PESA withdrawals?',
+    answer: 'Yes, the standard M-PESA withdrawal limit is KES 70,000 per transaction and KES 140,000 per day for fully verified accounts. Unverified accounts have lower limits.'
+  },
+  {
+    question: 'Which is cheaper: agent withdrawal or bank withdrawal?',
+    answer: 'Agent withdrawals are typically cheaper for smaller amounts, while bank transfers might be more cost-effective for larger amounts. Our calculator helps you compare the costs.'
+  },
+  {
+    question: 'Do these fees include VAT?',
+    answer: 'Yes, all M-PESA withdrawal fees are inclusive of VAT (16% as of 2025). The prices shown are the total amount you will be charged.'
+  },
+  {
+    question: 'How can I reduce my withdrawal fees?',
+    answer: 'You can reduce fees by withdrawing larger amounts less frequently, using bank transfers for big amounts, or using M-PESA Paybill numbers for certain services that accept it.'
+  }
+];
+
+// Generate structured data for withdrawal fees
+const feeBands = MPESA_AGENT_FEES.map(band => ({
+  "@type": "PriceSpecification",
+  "price": band.fee,
+  "priceCurrency": "KES",
+  "eligibleQuantity": {
+    "@type": "QuantitativeValue",
+    "minValue": band.min,
+    "maxValue": band.max,
+    "unitCode": "KET"
+  }
+}));
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": ["FinancialProduct", "Service"],
+  "name": "MPESA Agent Withdrawal Fees",
+  "description": "Current MPESA agent withdrawal fees in Kenya",
+  "provider": {
+    "@type": "Organization",
+    "name": "Safaricom",
+    "url": "https://www.safaricom.co.ke/"
+  },
+  "feesAndCommissionsSpecification": feeBands,
+  "url": `https://yourdomain.com${canonicalUrl}`
+};
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  structuredData={structuredData}
+>
+  <main class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <a href="/" class="text-emerald-400 hover:text-emerald-300 mb-6 inline-block">&larr; Back to Converters</a>
+      <h1 class="text-4xl font-bold text-center mb-2 text-emerald-400">M-PESA Withdrawal Fees Calculator</h1>
+      <p class="text-center text-gray-400 mb-8">Calculate exact charges for withdrawing money from M-PESA agents in Kenya</p>
+
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label for="withdrawal-method" class="block text-sm font-medium text-gray-300 mb-2">Withdrawal Method</label>
+          <select id="withdrawal-method" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg">
+            <option value="mpesa-agent">M-PESA Agent</option>
+            <option value="mpesa-atm" disabled>M-PESA ATM (coming soon)</option>
+            <option value="equity-bank" disabled>Equity Bank (coming soon)</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="withdrawal-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount to Withdraw (KES)</label>
+          <input type="number" id="withdrawal-amount" placeholder="e.g., 5000" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg">
+        </div>
+
+        <div class="text-center my-6 bg-gray-900 p-4 rounded-md">
+          <p class="text-gray-400">Estimated Fee</p>
+          <p id="estimated-fee" class="text-3xl font-bold text-emerald-400">0.00 KES</p>
+          <hr class="border-gray-700 my-2">
+          <p class="text-gray-400">You will receive</p>
+          <p id="net-amount" class="text-3xl font-bold text-white">0.00 KES</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Define the fee structure for M-PESA agent withdrawals
+    const MPESA_AGENT_FEES = [
+      { min: 50, max: 100, fee: 11 },
+      { min: 101, max: 500, fee: 29 },
+      { min: 501, max: 1000, fee: 34 },
+      { min: 1001, max: 1500, fee: 41 },
+      { min: 1501, max: 2500, fee: 52 },
+      { min: 2501, max: 3500, fee: 69 },
+      { min: 3501, max: 5000, fee: 85 },
+      { min: 5001, max: 7500, fee: 113 },
+      { min: 7501, max: 10000, fee: 160 },
+      { min: 10001, max: 15000, fee: 182 },
+      { min: 15001, max: 20000, fee: 203 },
+      { min: 20001, max: 35000, fee: 278 },
+      { min: 35001, max: 50000, fee: 309 },
+      { min: 50001, max: 250000, fee: 335 },
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const amountInput = document.getElementById('withdrawal-amount');
+      const methodSelect = document.getElementById('withdrawal-method');
+      const feeDisplay = document.getElementById('estimated-fee');
+      const netDisplay = document.getElementById('net-amount');
+
+      if (!amountInput || !methodSelect || !feeDisplay || !netDisplay) {
+        console.error('Withdrawal Fee script: One or more required DOM elements are missing.');
+        return;
+      }
+
+      function calculateMpesaAgentFee(amount) {
+        if (isNaN(amount) || amount < 50) return 0; // No withdrawals below 50
+        if (amount > 250000) return -1; // Indicate error/over limit
+
+        // Convert amount to number in case it's a string
+        const numAmount = Number(amount);
+        
+        for (const band of MPESA_AGENT_FEES) {
+          if (numAmount >= band.min && numAmount <= band.max) {
+            return band.fee;
+          }
+        }
+        return -1; // Return -1 if no matching band found
+      }
+
+      function updateCalculation() {
+        const amount = amountInput.value.trim() === '' ? 0 : parseFloat(amountInput.value);
+        const method = methodSelect.value;
+
+        if (isNaN(amount) || amount <= 0) {
+          feeDisplay.textContent = '0.00 KES';
+          netDisplay.textContent = '0.00 KES';
+          return;
+        }
+
+        let fee = 0;
+        if (method === 'mpesa-agent') {
+          fee = calculateMpesaAgentFee(amount);
+          
+          if (fee === -1) {
+            feeDisplay.textContent = 'Over Limit';
+            netDisplay.textContent = 'Max: 250,000 KES';
+            return;
+          }
+        }
+
+        const netAmount = Math.max(0, amount - fee);
+
+        feeDisplay.textContent = fee === 0 ? '0.00 KES' : `${fee.toFixed(2)} KES`;
+        netDisplay.textContent = `${netAmount.toFixed(2)} KES`;
+      }
+
+      amountInput.addEventListener('input', updateCalculation);
+      methodSelect.addEventListener('change', updateCalculation);
+      
+      updateCalculation(); // Initial calculation
+    });
+  </script>
+  
+  <!-- FAQ Schema for Rich Results -->
+  <FAQSchema faqItems={faqItems} />
+</main>
+</Layout>

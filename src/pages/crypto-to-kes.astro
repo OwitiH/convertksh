@@ -1,0 +1,293 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+
+// Platform fee can be adjusted here
+const PLATFORM_FEE_PERCENTAGE = 0.001; // 0.1% (e.g., Binance)
+
+// SEO Metadata
+const pageTitle = 'Crypto to KES Converter | BTC, ETH, USDT to Kenyan Shillings';
+const pageDescription = 'Convert Bitcoin, Ethereum, and USDT to Kenyan Shillings (KES) with live exchange rates. Instantly see how much your crypto is worth in KES, including exchange fees.';
+const canonicalUrl = '/crypto-to-kes';
+
+// FAQ Schema Data
+const faqItems = [
+  {
+    question: 'Which cryptocurrencies can I convert to KES?',
+    answer: 'Our converter currently supports Bitcoin (BTC), Ethereum (ETH), and Tether (USDT). These are the most widely used cryptocurrencies in Kenya.'
+  },
+  {
+    question: 'How accurate are the crypto to KES rates?',
+    answer: 'We use real-time market data to provide the most accurate rates. However, actual rates may vary slightly between different exchanges and at the time of your transaction.'
+  },
+  {
+    question: 'What fees are included in the conversion?',
+    answer: 'Our calculator includes a platform fee of 0.1% (typical for exchanges like Binance). Additional network fees may apply when transferring crypto to an exchange.'
+  },
+  {
+    question: 'How do I actually convert my crypto to KES in Kenya?',
+    answer: 'To convert crypto to KES, you\'ll need to use a cryptocurrency exchange that supports Kenyan Shillings, such as Binance, LocalBitcoins, or local exchanges like BitPesa.'
+  },
+  {
+    question: 'Is it safe to convert crypto to M-PESA in Kenya?',
+    answer: 'While converting crypto to M-PESA is popular, always use reputable exchanges and be aware of the Central Bank of Kenya\'s regulations regarding cryptocurrency transactions.'
+  }
+];
+
+// Structured Data for Crypto Converter
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CurrencyConversionService",
+  "name": "Crypto to KES Converter",
+  "description": pageDescription,
+  "url": `https://yourdomain.com${canonicalUrl}`,
+  "feesAndCommissionsSpecification": {
+    "@type": "PriceSpecification",
+    "price": PLATFORM_FEE_PERCENTAGE * 100,
+    "priceCurrency": "%",
+    "description": `Platform fee of ${(PLATFORM_FEE_PERCENTAGE * 100).toFixed(2)}% per transaction`
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Kenya"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceSpecification": {
+      "@type": "PriceSpecification",
+      "priceCurrency": "KES"
+    }
+  },
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "serviceUrl": `https://yourdomain.com${canonicalUrl}`,
+    "serviceLocation": {
+      "@type": "Country",
+      "name": "Kenya"
+    }
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Kenyan Currency Tools Hub",
+    "url": "https://yourdomain.com"
+  }
+};
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  structuredData={structuredData}
+>
+  <main class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <a href="/" class="text-emerald-400 hover:text-emerald-300 mb-6 inline-block">&larr; Back to Converters</a>
+      <h1 class="text-4xl font-bold text-center mb-2 text-emerald-400">Crypto to KES Converter</h1>
+      <p class="text-center text-gray-400 mb-8">See live conversion rates for Bitcoin, Ethereum, and USDT to Kenyan Shillings</p>
+
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <!-- Last Updated & Refresh Button -->
+        <div class="flex justify-between items-center mb-4">
+          <div id="last-updated" class="text-sm text-gray-400">Updating rates...</div>
+          <button id="refresh-rates" class="flex items-center text-emerald-400 hover:text-emerald-300 text-sm font-medium">
+            <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <svg id="loading-icon" class="hidden animate-spin h-4 w-4 mr-1 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Refresh Rates
+          </button>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-4 mb-4">
+          <div class="col-span-1">
+            <label for="crypto-select" class="block text-sm font-medium text-gray-300 mb-2">Coin</label>
+            <select id="crypto-select" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg">
+              <option value="btc">BTC</option>
+              <option value="eth">ETH</option>
+              <option value="usdt">USDT</option>
+            </select>
+          </div>
+          <div class="col-span-2">
+            <label for="crypto-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount</label>
+            <input type="number" id="crypto-amount" placeholder="e.g., 0.5" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg">
+          </div>
+        </div>
+
+        <div class="text-center my-6">
+          <p class="text-gray-400">You will receive approximately</p>
+          <p id="kes-result" class="text-4xl font-bold text-emerald-400">0.00 KES</p>
+        </div>
+
+        <div class="text-sm text-gray-400 space-y-2">
+          <p><strong>Calculation Breakdown (Estimates):</strong></p>
+          <p>1 <span class="crypto-symbol">BTC</span> &rarr; <span id="crypto-to-usd-rate">Fetching...</span> USD</p>
+          <p>1 USD &rarr; <span id="usd-to-kes-rate">Fetching...</span> KES</p>
+          <p>Platform Fee (<span id="platform-fee-percent">0.1%</span>): <span id="platform-fee-display" class="text-gray-300">-</span></p>
+          <p>Final Value (after fees): <span id="final-value-display" class="text-gray-300">-</span></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script define:vars={{ PLATFORM_FEE_PERCENTAGE }}>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const cryptoSelect = document.getElementById('crypto-select');
+      const amountInput = document.getElementById('crypto-amount');
+      const kesResultDisplay = document.getElementById('kes-result');
+      const cryptoToUsdRateDisplay = document.getElementById('crypto-to-usd-rate');
+      const usdToKesRateDisplay = document.getElementById('usd-to-kes-rate');
+      const platformFeeDisplay = document.getElementById('platform-fee-display');
+      const finalValueDisplay = document.getElementById('final-value-display');
+      const cryptoSymbolSpans = document.querySelectorAll('.crypto-symbol');
+      const platformFeePercentSpan = document.getElementById('platform-fee-percent');
+      const refreshButton = document.getElementById('refresh-rates');
+      const refreshIcon = document.getElementById('refresh-icon');
+      const loadingIcon = document.getElementById('loading-icon');
+      const lastUpdatedDisplay = document.getElementById('last-updated');
+
+      // State
+      let rates = { usd: { kes: null }, btc: { usd: null }, eth: { usd: null }, usdt: { usd: null } };
+      let refreshInterval;
+      const REFRESH_INTERVAL_MS = 30000; // 30 seconds
+
+      // Update the UI with the last updated time
+      function updateLastUpdatedTime() {
+        const now = new Date();
+        const options = { 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit',
+          hour12: true,
+          timeZone: 'Africa/Nairobi' // East Africa Time
+        };
+        const timeString = now.toLocaleTimeString('en-US', options);
+        lastUpdatedDisplay.textContent = `Rates updated: ${timeString} EAT`;
+      }
+
+      // Toggle loading state
+      function setLoading(isLoading) {
+        if (isLoading) {
+          refreshIcon.classList.add('hidden');
+          loadingIcon.classList.remove('hidden');
+          refreshButton.disabled = true;
+        } else {
+          refreshIcon.classList.remove('hidden');
+          loadingIcon.classList.add('hidden');
+          refreshButton.disabled = false;
+        }
+      }
+
+      // Fetch rates from the API
+      async function fetchAllRates() {
+        setLoading(true);
+        try {
+          const [usdRes, btcRes, ethRes, usdtRes] = await Promise.all([
+            fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json?t=' + Date.now()),
+            fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/btc.json?t=' + Date.now()),
+            fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eth.json?t=' + Date.now()),
+            fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usdt.json?t=' + Date.now()),
+          ]);
+
+          if (!usdRes.ok || !btcRes.ok || !ethRes.ok || !usdtRes.ok) {
+            throw new Error('One or more API requests failed');
+          }
+
+          const [usdData, btcData, ethData, usdtData] = await Promise.all([
+            usdRes.json(),
+            btcRes.json(),
+            ethRes.json(),
+            usdtRes.json()
+          ]);
+
+          rates.usd.kes = usdData.usd.kes;
+          rates.btc.usd = btcData.btc.usd;
+          rates.eth.usd = ethData.eth.usd;
+          rates.usdt.usd = usdtData.usdt.usd;
+
+          usdToKesRateDisplay.textContent = `${rates.usd.kes.toFixed(2)}`;
+          platformFeePercentSpan.textContent = `${(PLATFORM_FEE_PERCENTAGE * 100).toFixed(1)}%`;
+          
+          updateCalculation();
+          updateLastUpdatedTime();
+          
+        } catch (error) {
+          console.error('Failed to fetch crypto rates:', error);
+          lastUpdatedDisplay.textContent = 'Error updating rates. Click refresh to try again.';
+          lastUpdatedDisplay.classList.add('text-red-400');
+          setTimeout(() => lastUpdatedDisplay.classList.remove('text-red-400'), 2000);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function updateCalculation() {
+        const selectedCrypto = cryptoSelect.value; // 'btc', 'eth', 'usdt'
+        const cryptoAmount = parseFloat(amountInput.value);
+        
+        cryptoSymbolSpans.forEach(span => span.textContent = selectedCrypto.toUpperCase());
+        
+        const cryptoRate = rates[selectedCrypto]?.usd;
+        const kesRate = rates.usd.kes;
+
+        if (!cryptoRate || !kesRate) {
+            cryptoToUsdRateDisplay.textContent = '...';
+            return;
+        }
+        cryptoToUsdRateDisplay.textContent = `${cryptoRate.toLocaleString()}`;
+
+        if (isNaN(cryptoAmount) || cryptoAmount <= 0) {
+          kesResultDisplay.textContent = '0.00 KES';
+          platformFeeDisplay.textContent = '-';
+          finalValueDisplay.textContent = '-';
+          return;
+        }
+
+        const usdValue = cryptoAmount * cryptoRate;
+        const fee = usdValue * PLATFORM_FEE_PERCENTAGE;
+        const usdValueAfterFee = usdValue - fee;
+        const finalKesValue = usdValueAfterFee * kesRate;
+
+        platformFeeDisplay.textContent = `$${fee.toFixed(2)} USD`;
+        finalValueDisplay.textContent = `${finalKesValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} KES`;
+        kesResultDisplay.textContent = `${finalKesValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} KES`;
+      }
+
+      // Event Listeners
+      cryptoSelect.addEventListener('change', updateCalculation);
+      amountInput.addEventListener('input', updateCalculation);
+      refreshButton.addEventListener('click', () => {
+        fetchAllRates();
+      });
+
+      // Initial fetch
+      fetchAllRates();
+
+      // Set up auto-refresh
+      refreshInterval = setInterval(fetchAllRates, REFRESH_INTERVAL_MS);
+
+      // Clean up interval when page is hidden to save resources
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearInterval(refreshInterval);
+        } else {
+          // Restart interval and refresh data when page becomes visible again
+          fetchAllRates();
+          clearInterval(refreshInterval);
+          refreshInterval = setInterval(fetchAllRates, REFRESH_INTERVAL_MS);
+        }
+      });
+
+      // Clean up interval when component unmounts
+      window.addEventListener('beforeunload', () => {
+        clearInterval(refreshInterval);
+      });
+    });
+  </script>
+  <!-- FAQ Schema for Rich Results -->
+  <FAQSchema faqItems={faqItems} />
+</Layout>

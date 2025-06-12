@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// Import blog posts
+import BestWaysToSendMoney from './best-ways-to-send-money-to-kenya.astro';
+import PayPalVsWise from './paypal-vs-wise-kenya.astro';
+import CryptoGuideKenya from './crypto-guide-kenya.astro';
+
+// Blog post metadata
+const posts = [
+  {
+    title: 'Best Ways to Send Money to Kenya in 2025',
+    description: 'Compare the cheapest and fastest ways to send money to Kenya from abroad, including fees, exchange rates, and transfer times.',
+    slug: 'best-ways-to-send-money-to-kenya',
+    date: new Date('2025-06-10'),
+    readTime: '8 min read',
+    tags: ['money transfer', 'comparison', 'fees']
+  },
+  {
+    title: 'PayPal vs Wise for Kenya: Which is Better in 2025?',
+    description: 'Detailed comparison of PayPal and Wise (formerly TransferWise) for sending and receiving money in Kenya, including fees and exchange rates.',
+    slug: 'paypal-vs-wise-kenya',
+    date: new Date('2025-06-05'),
+    readTime: '6 min read',
+    tags: ['paypal', 'wise', 'comparison']
+  },
+  {
+    title: 'Complete Guide to Cryptocurrency in Kenya (2025 Update)',
+    description: 'Everything you need to know about buying, selling, and using cryptocurrency in Kenya, including regulations and best platforms.',
+    slug: 'crypto-guide-kenya',
+    date: new Date('2025-05-28'),
+    readTime: '10 min read',
+    tags: ['cryptocurrency', 'guide', 'bitcoin']
+  }
+];
+
+// Sort by date (newest first)
+const sortedPosts = [...posts].sort((a, b) => b.date - a.date);
+---
+
+<Layout 
+  title="Currency Blog - Kenyan Currency Tools"
+  description="Latest updates, guides, and comparisons about currency exchange, money transfers, and financial tools for Kenya."
+  canonicalUrl="/blog/"
+>
+  <main class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <a href="/" class="text-emerald-400 hover:text-emerald-300 mb-6 inline-block">&larr; Back to Home</a>
+      
+      <header class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-emerald-400 mb-4">Currency Blog</h1>
+        <p class="text-xl text-gray-300">Latest updates, guides, and comparisons about currency exchange and money transfers in Kenya</p>
+      </header>
+
+      <div class="space-y-8">
+        {sortedPosts.map(post => (
+          <article class="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+            <div class="p-6 md:p-8">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h2 class="text-2xl font-bold text-white mb-2 hover:text-emerald-400">
+                    <a href={`/blog/${post.slug}`} class="hover:underline">
+                      {post.title}
+                    </a>
+                  </h2>
+                  <p class="text-gray-300 mb-4">{post.description}</p>
+                  
+                  <div class="flex flex-wrap items-center text-sm text-gray-400">
+                    <time datetime={post.date.toISOString()} class="mr-4">
+                      {post.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </time>
+                    <span class="mr-4">•</span>
+                    <span>{post.readTime}</span>
+                  </div>
+                  
+                  {post.tags && post.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2 mt-3">
+                      {post.tags.map(tag => (
+                        <span class="bg-gray-700 text-emerald-300 text-xs px-3 py-1 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <a 
+                  href={`/blog/${post.slug}`} 
+                  class="text-emerald-400 hover:text-emerald-300 ml-4 flex-shrink-0"
+                  aria-label={`Read more about ${post.title}`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>

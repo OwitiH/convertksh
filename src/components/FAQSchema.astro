@@ -1,0 +1,24 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+const { faqItems } = Astro.props;
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map((item: FAQItem) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+---
+
+<!-- FAQ Schema for Rich Results -->
+<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />

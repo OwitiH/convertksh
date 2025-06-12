@@ -1,0 +1,283 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+
+// SEO Metadata
+const pageTitle = 'Kenyan Currency Tools Hub | Free Online Converters & Calculators';
+const pageDescription = 'Convert USD to KES at live exchange rates, calculate PayPal to MPESA fees, and check crypto values in Kenyan Shillings. Free, instant currency tools for Kenya.';
+const canonicalUrl = '/';
+
+// FAQ Schema Data
+const faqItems = [
+  {
+    question: 'How accurate are the USD to KES exchange rates?',
+    answer: 'Our USD to KES rates are updated in real-time using reliable financial data sources. However, actual exchange rates may vary slightly depending on your bank or money transfer service.'
+  },
+  {
+    question: 'What fees does PayPal charge for sending money to Kenya?',
+    answer: 'PayPal typically charges 4.4% + $0.30 USD per transaction when sending money to Kenya. Our PayPal to MPESA calculator helps you estimate the exact amount you\'ll receive after these fees.'
+  },
+  {
+    question: 'Can I convert cryptocurrency to Kenyan Shillings?',
+    answer: 'Yes, our Crypto to KES converter supports Bitcoin (BTC), Ethereum (ETH), and USDT. Simply select your cryptocurrency and amount to see the current value in Kenyan Shillings.'
+  },
+  {
+    question: 'How do I withdraw money from M-PESA with the lowest fees?',
+    answer: 'M-PESA agent withdrawal fees vary based on the amount. Our Withdrawal Fee Calculator helps you find the most cost-effective way to withdraw your money by comparing different withdrawal methods.'
+  },
+  {
+    question: 'Are these currency tools free to use?',
+    answer: 'Yes, all our currency conversion and calculation tools are completely free to use. There are no hidden charges or registration required.'
+  }
+];
+
+// Structured Data for Homepage
+const structuredData = {
+  "@type": "CollectionPage",
+  "name": "Kenyan Currency Tools Hub",
+  "description": pageDescription,
+  "url": "https://yourdomain.com",
+  "mainEntity": [
+    {
+      "@type": "HowToTool",
+      "name": "USD to KES Converter",
+      "description": "Convert US Dollars to Kenyan Shillings with live exchange rates",
+      "url": "https://yourdomain.com/#usd-to-kes"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "PayPal to MPESA Calculator",
+      "description": "Calculate how much KES you'll receive from PayPal after fees",
+      "url": "https://yourdomain.com/paypal-to-mpesa"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Crypto to KES Converter",
+      "description": "Convert Bitcoin, Ethereum, and USDT to Kenyan Shillings",
+      "url": "https://yourdomain.com/crypto-to-kes"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Withdrawal Fee Estimator",
+      "description": "Estimate fees for withdrawing money from various services in Kenya",
+      "url": "https://yourdomain.com/withdrawal-fees"
+    }
+  ]
+};
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  structuredData={structuredData}
+>
+  <main class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <h1 class="text-4xl font-bold text-center mb-2 text-emerald-400">USD to KES Converter</h1>
+      <p class="text-center text-gray-400 mb-4">Enter an amount in USD to see the equivalent in KES.</p>
+
+      <!-- Last Updated & Refresh Button -->
+      <div class="flex justify-between items-center mb-4">
+        <div id="last-updated" class="text-sm text-gray-400">Updating rates...</div>
+        <button id="refresh-rates" class="flex items-center text-emerald-400 hover:text-emerald-300 text-sm font-medium">
+          <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <svg id="loading-icon" class="hidden animate-spin h-4 w-4 mr-1 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Refresh Rates
+        </button>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label for="usd-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount in USD</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-gray-400">$</span>
+            </div>
+            <input 
+              type="number" 
+              id="usd-amount" 
+              placeholder="e.g., 100" 
+              class="w-full bg-gray-700 border border-gray-600 rounded-md pl-8 p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg"
+              min="0"
+              step="0.01"
+            >
+          </div>
+        </div>
+
+        <div class="text-center my-6">
+          <p class="text-gray-400 mb-2">is approximately</p>
+          <p id="kes-result" class="text-4xl font-bold text-emerald-400">0.00 KES</p>
+          <p id="exchange-rate" class="text-sm text-gray-400 mt-2">1 USD = <span id="rate-display">-</span> KES</p>
+          <p id="last-updated-time" class="text-xs text-gray-500 mt-1"></p>
+        </div>
+
+        <div class="flex justify-center space-x-2 mb-4">
+          <button class="preset-amount bg-gray-700 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded transition-colors" data-amount="10">$10</button>
+          <button class="preset-amount bg-gray-700 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded transition-colors" data-amount="50">$50</button>
+          <button class="preset-amount bg-gray-700 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded transition-colors" data-amount="100">$100</button>
+          <button class="preset-amount bg-gray-700 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded transition-colors" data-amount="500">$500</button>
+        </div>
+      </div>
+      
+      <div class="mt-8 grid gap-4 text-center">
+        <a href="/paypal-to-mpesa" class="text-emerald-400 hover:text-emerald-300 text-lg font-medium block">
+          Try our PayPal to MPESA Calculator &rarr;
+        </a>
+        <a href="/withdrawal-fees" class="text-emerald-400 hover:text-emerald-300 text-lg font-medium block">
+          Calculate Withdrawal Fees &rarr;
+        </a>
+        <a href="/crypto-to-kes" class="text-emerald-400 hover:text-emerald-300 text-lg font-medium block">
+          Convert Crypto to KES &rarr;
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const usdAmountInput = document.getElementById('usd-amount');
+      const kesResultDisplay = document.getElementById('kes-result');
+      const rateDisplay = document.getElementById('rate-display');
+      const lastUpdatedTime = document.getElementById('last-updated-time');
+      const refreshButton = document.getElementById('refresh-rates');
+      const refreshIcon = document.getElementById('refresh-icon');
+      const loadingIcon = document.getElementById('loading-icon');
+      const presetButtons = document.querySelectorAll('.preset-amount');
+      
+      // State
+      let usdToKesRate = null;
+      let refreshInterval;
+      const REFRESH_INTERVAL_MS = 30000; // 30 seconds
+
+      // Format number with commas and 2 decimal places
+      function formatNumber(num) {
+        return num.toLocaleString('en-US', { 
+          minimumFractionDigits: 2, 
+          maximumFractionDigits: 2 
+        });
+      }
+
+      // Update the last updated timestamp
+      function updateLastUpdatedTime() {
+        const now = new Date();
+        const options = { 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit',
+          hour12: true,
+          timeZone: 'Africa/Nairobi' // East Africa Time
+        };
+        const timeString = now.toLocaleTimeString('en-US', options);
+        lastUpdatedTime.textContent = `Last updated: ${timeString} EAT`;
+      }
+
+      // Toggle loading state
+      function setLoading(isLoading) {
+        if (isLoading) {
+          refreshIcon.classList.add('hidden');
+          loadingIcon.classList.remove('hidden');
+          refreshButton.disabled = true;
+        } else {
+          refreshIcon.classList.remove('hidden');
+          loadingIcon.classList.add('hidden');
+          refreshButton.disabled = false;
+        }
+      }
+
+      // Fetch the latest exchange rate
+      async function fetchExchangeRate() {
+        setLoading(true);
+        try {
+          const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json?t=' + Date.now());
+          
+          if (!response.ok) {
+            throw new Error('Failed to fetch exchange rate');
+          }
+          
+          const data = await response.json();
+          
+          if (data.usd && data.usd.kes) {
+            usdToKesRate = data.usd.kes;
+            rateDisplay.textContent = formatNumber(usdToKesRate);
+            updateConversion();
+            updateLastUpdatedTime();
+          } else {
+            throw new Error('Invalid data from API');
+          }
+        } catch (error) {
+          console.error('Error fetching exchange rate:', error);
+          rateDisplay.textContent = 'Error';
+          lastUpdatedTime.textContent = 'Failed to update. Click refresh to try again.';
+          lastUpdatedTime.classList.add('text-red-400');
+          setTimeout(() => lastUpdatedTime.classList.remove('text-red-400'), 3000);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      // Update the conversion result
+      function updateConversion() {
+        if (usdToKesRate === null) return;
+        
+        const usdAmount = parseFloat(usdAmountInput.value);
+        
+        if (!isNaN(usdAmount) && usdAmount > 0) {
+          const kesAmount = usdAmount * usdToKesRate;
+          kesResultDisplay.textContent = `${formatNumber(kesAmount)} KES`;
+        } else {
+          kesResultDisplay.textContent = '0.00 KES';
+        }
+      }
+
+      // Event Listeners
+      usdAmountInput.addEventListener('input', updateConversion);
+      
+      presetButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const amount = button.getAttribute('data-amount');
+          usdAmountInput.value = amount;
+          updateConversion();
+          usdAmountInput.focus();
+        });
+      });
+      
+      refreshButton.addEventListener('click', () => {
+        fetchExchangeRate();
+      });
+
+      // Initial fetch
+      fetchExchangeRate();
+
+      // Set up auto-refresh
+      refreshInterval = setInterval(fetchExchangeRate, REFRESH_INTERVAL_MS);
+
+      // Clean up interval when page is hidden to save resources
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearInterval(refreshInterval);
+        } else {
+          // Restart interval and refresh data when page becomes visible again
+          fetchExchangeRate();
+          clearInterval(refreshInterval);
+          refreshInterval = setInterval(fetchExchangeRate, REFRESH_INTERVAL_MS);
+        }
+      });
+
+      // Clean up interval when component unmounts
+      window.addEventListener('beforeunload', () => {
+        clearInterval(refreshInterval);
+      });
+    });
+  </script>
+  <FAQSchema faqItems={faqItems} />
+</Layout>
