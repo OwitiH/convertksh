@@ -1,0 +1,13 @@
+[[redirects]]
+  from = "https://www.convertksh.xyz/*"
+  to = "https://convertksh.xyz/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubdomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
