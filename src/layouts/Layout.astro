@@ -16,19 +16,19 @@ const {
 } = Astro.props;
 
 // Generate canonical URL
-const fullCanonicalUrl = new URL(canonicalUrl, 'https://convertksh.xyz').toString();
+const fullCanonicalUrl = new URL(canonicalUrl, 'https://www.convertksh.xyz').toString();
 
 // Default structured data if not provided
 const defaultStructuredData = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Kenyan Currency Tools Hub",
-  "url": "https://convertksh.xyz",
+  "url": "https://www.convertksh.xyz",
   "potentialAction": {
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://convertksh.xyz/search?q={search_term_string}"
+      "urlTemplate": "https://www.convertksh.xyz/search?q={search_term_string}"
     },
     "query-input": "required name=search_term_string"
   }
