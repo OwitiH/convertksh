@@ -9,6 +9,7 @@ const { faqItems } = Astro.props;
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "url": "https://convertksh.xyz",
   "mainEntity": faqItems.map((item: FAQItem) => ({
     "@type": "Question",
     "name": item.question,
