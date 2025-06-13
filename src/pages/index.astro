@@ -3,15 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import FAQSchema from '../components/FAQSchema.astro';
 
 // SEO Metadata
-const pageTitle = 'Kenyan Currency Tools Hub | Free Online Converters & Calculators';
-const pageDescription = 'Convert USD to KES at live exchange rates, calculate PayPal to MPESA fees, and check crypto values in Kenyan Shillings. Free, instant currency tools for Kenya.';
+const pageTitle = 'USD to KES Converter | Live Exchange Rate (US Dollar to Kenya Shillings)';
+const pageDescription = 'Convert USD to KES (US Dollar to Kenya Shillings) with our live exchange rate calculator. Get accurate USD/KES conversion rates updated in real-time. Free and easy to use.';
 const canonicalUrl = '/';
 
 // FAQ Schema Data
 const faqItems = [
   {
-    question: 'How accurate are the USD to KES exchange rates?',
-    answer: 'Our USD to KES rates are updated in real-time using reliable financial data sources. However, actual exchange rates may vary slightly depending on your bank or money transfer service.'
+    question: 'What is the current USD to KES exchange rate?',
+    answer: 'Our USD to KES (US Dollar to Kenya Shillings) rates are updated in real-time using reliable financial data sources. The exchange rate you see is the current market rate, though your bank or money transfer service may apply a slightly different rate.'
+  },
+  {
+    question: 'How do I convert USD to KES?',
+    answer: 'To convert USD to KES (Kenya Shillings), simply enter the amount in US Dollars in the converter above. The tool will automatically show you the equivalent amount in KES using the latest exchange rate. You can also use our preset amounts (10, 50, 100, 500, 1000 USD) for quick conversions.'
   },
   {
     question: 'What fees does PayPal charge for sending money to Kenya?',
@@ -41,7 +45,8 @@ const structuredData = {
     {
       "@type": "HowToTool",
       "name": "USD to KES Converter",
-      "description": "Convert US Dollars to Kenyan Shillings with live exchange rates",
+      "description": "Convert US Dollars (USD) to Kenyan Shillings (KES) with live, accurate exchange rates. Get the best USD/KES conversion rate instantly.",
+      "keywords": "usd to ksh, usd to kshs, usd in ksh, usd in kes, usd in kenya shillings, usd ksh, usd to kenya shillings, us dollar to kenya shillings",
       "url": "https://convertksh.xyz/#usd-to-kes"
     },
     {
@@ -78,7 +83,7 @@ const structuredData = {
   <main class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
     <div class="w-full max-w-md">
       <h1 class="text-4xl font-bold text-center mb-2 text-emerald-400">USD to KES Converter</h1>
-      <p class="text-center text-gray-400 mb-4">Enter an amount in USD to see the equivalent in KES.</p>
+      <p class="text-center text-gray-400 mb-4">Convert US Dollars (USD) to Kenyan Shillings (KES) using our live exchange rate calculator. Get instant USD to KES conversion with accurate, up-to-date rates.</p>
 
       <!-- Last Updated & Refresh Button -->
       <div class="flex justify-between items-center mb-4">
