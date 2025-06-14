@@ -1,3 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://convertksh.xyz/sitemap-index.xml
+Sitemap: https://www.convertksh.xyz/sitemap.xml
+
+# Force HTTPS
+Host: https://www.convertksh.xyz
