@@ -48,6 +48,23 @@ const pageStructuredData = structuredData || defaultStructuredData;
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={fullCanonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://convertksh.xyz/images/og-image.jpg" />
+    <meta property="og:site_name" content="Convert KSH - Kenyan Currency Tools" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={fullCanonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://convertksh.xyz/images/twitter-card.jpg" />
+    <meta name="twitter:site" content="@convertksh" />
     <link rel="canonical" href={fullCanonicalUrl} />
 
     <!-- Open Graph / Facebook -->
