@@ -1,4 +1,16 @@
 [[redirects]]
+  from = "http://www.convertksh.xyz/*"
+  to = "https://convertksh.xyz/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://convertksh.xyz/*"
+  to = "https://convertksh.xyz/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "https://www.convertksh.xyz/*"
   to = "https://convertksh.xyz/:splat"
   status = 301
