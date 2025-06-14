@@ -5,7 +5,7 @@
       "has": [
         {
           "type": "host",
-          "value": "(www\.)?convertksh\.xyz"
+          "value": "www.convertksh.xyz"
         }
       ],
       "destination": "https://convertksh.xyz/:path*",
