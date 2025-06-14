@@ -5,24 +5,11 @@
       "has": [
         {
           "type": "host",
-          "value": "www.convertksh.xyz"
+          "value": "(www\.)?convertksh\.xyz"
         }
       ],
       "destination": "https://convertksh.xyz/:path*",
-      "permanent": true,
-      "statusCode": 308
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "convertksh.xyz"
-        }
-      ],
-      "destination": "https://convertksh.xyz/:path*",
-      "permanent": true,
-      "statusCode": 308
+      "permanent": true
     }
   ],
   "headers": [
