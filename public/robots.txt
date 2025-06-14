@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://convertksh.xyz/sitemap-index.xml
+Sitemap: https://convertksh.xyz/sitemap-0.xml
