@@ -2,6 +2,10 @@
 // Tell Astro this is a static page
 export const prerender = true;
 
+// Set the content type to XML
+const headers = new Headers();
+headers.set('Content-Type', 'application/xml');
+
 // Sitemap configuration
 const siteUrl = 'https://www.convertksh.xyz';
 const pages = [
@@ -24,8 +28,9 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     </url>`).join('')}
 </urlset>`;
 ---
-{/* Set the content type to XML */}
+
+{/* Return the sitemap with proper headers */}
 ---
----
-<!doctype xml>
 {sitemap}
+---
+{headers}
