@@ -1,4 +1,8 @@
 ---
+// Tell Astro this is a static page
+export const prerender = true;
+
+// Sitemap configuration
 const siteUrl = 'https://www.convertksh.xyz';
 const pages = [
   { url: '/', priority: '1.0', changefreq: 'daily' },
@@ -8,6 +12,7 @@ const pages = [
   { url: '/blog', priority: '0.6', changefreq: 'weekly' },
 ];
 
+// Generate the sitemap XML content
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   ${pages.map(page => `
@@ -19,5 +24,8 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     </url>`).join('')}
 </urlset>`;
 ---
-
+{/* Set the content type to XML */}
+---
+---
+<!doctype xml>
 {sitemap}

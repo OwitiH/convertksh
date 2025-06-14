@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://www.convertksh.xyz',
   output: 'static',
+  build: {
+    format: 'directory'
+  },
   vite: {
     plugins: [tailwindcss()],
     server: {
