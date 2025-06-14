@@ -5,23 +5,24 @@
       "has": [{ "type": "host", "value": "convertksh.xyz" }], 
       "destination": "https://www.convertksh.xyz/:path*",
       "permanent": true
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap",
+      "headers": {
+        "Content-Type": "application/xml"
+      }
     }
   ],
   "headers": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "headers": [
         { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "X-XSS-Protection", "value": "1; mode=block" }
-      ]
-    },
-    {
-      "source": "/sitemap.xml",
-      "headers": [
-        { "key": "Content-Type", "value": "application/xml" }
       ]
     }
   ]
