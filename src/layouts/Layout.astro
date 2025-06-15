@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import CookieConsent from '../components/CookieConsent.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
@@ -117,27 +119,112 @@ const pageStructuredData = structuredData || defaultStructuredData;
     <meta name="apple-mobile-web-app-title" content={title} />
     
     <!-- Navigation Menu -->
-    <nav class="hidden md:flex space-x-8">
-      <a href="/" class="text-white hover:text-emerald-400 px-3 py-2 text-sm font-medium">Home</a>
-      <a href="/paypal-to-mpesa" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">PayPal to MPESA</a>
-      <a href="/crypto-to-kes" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Crypto to KES</a>
-      <a href="/withdrawal-fees" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Withdrawal Fees</a>
-      <a href="/blog" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Blog</a>
-    </nav>
+    <div class="relative">
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" class="text-gray-300 hover:text-emerald-400 focus:outline-none" aria-label="Toggle menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="/" class="text-white hover:text-emerald-400 px-3 py-2 text-sm font-medium">Home</a>
+        <a href="/paypal-to-mpesa" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">PayPal to MPESA</a>
+        <a href="/crypto-to-kes" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Crypto to KES</a>
+        <a href="/withdrawal-fees" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Withdrawal Fees</a>
+        <a href="/kes-ugx" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">KES ↔ UGX</a>
+        <a href="/blog" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Blog</a>
+      </nav>
+      
+      <!-- Mobile Navigation (hidden by default) -->
+      <div id="mobile-menu" class="hidden md:hidden absolute left-0 w-48 mt-2 py-2 bg-gray-800 rounded-md shadow-lg z-10">
+        <a href="/" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">Home</a>
+        <a href="/paypal-to-mpesa" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">PayPal to MPESA</a>
+        <a href="/crypto-to-kes" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">Crypto to KES</a>
+        <a href="/withdrawal-fees" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">Withdrawal Fees</a>
+        <a href="/kes-ugx" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">KES ↔ UGX</a>
+        <a href="/blog" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">Blog</a>
+      </div>
+    </div>
+    
+
 
     <!-- Performance optimizations -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KPS5WNEY4T"></script>
+    <!-- Google Analytics - Initialized with consent -->
     <script>
+      // Disable analytics by default until consent is given
+      window['ga-disable-G-KPS5WNEY4T'] = true;
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-KPS5WNEY4T');
+      
+      // Default to denied consent
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'personalization_storage': 'denied',
+        'functionality_storage': 'denied',
+        'security_storage': 'granted'
+      });
+      
+      gtag('config', 'G-KPS5WNEY4T', { 'anonymize_ip': true });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KPS5WNEY4T"></script>
   </head>
-  <body class="bg-gray-900">
-    <slot />
+  <body class="bg-gray-900 flex flex-col min-h-screen">
+    <div class="flex-grow">
+      <slot />
+    </div>
+    
+    <Footer />
+    <CookieConsent client:load />
+    
+    <script>
+      // Mobile menu functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event from bubbling to document
+            mobileMenu.classList.toggle('hidden');
+            
+            // Toggle aria-expanded attribute for accessibility
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            
+            // Toggle SVG icon between menu and close
+            const svg = mobileMenuButton.querySelector('svg');
+            if (svg) {
+              if (isExpanded) {
+                // Show menu icon
+                svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+              } else {
+                // Show close icon
+                svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+              }
+            }
+          });
+          
+          // Close menu when clicking outside
+          document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && e.target !== mobileMenuButton) {
+              mobileMenu.classList.add('hidden');
+              mobileMenuButton.setAttribute('aria-expanded', 'false');
+              const svg = mobileMenuButton.querySelector('svg');
+              if (svg) {
+                svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+              }
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

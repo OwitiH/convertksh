@@ -1,0 +1,416 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+
+// SEO Metadata
+const pageTitle = 'KES to UGX Converter | Kenya Shillings to Uganda Shillings Exchange Rate Today';
+const pageDescription = 'Convert Kenyan Shillings (KES) to Ugandan Shillings (UGX) with live exchange rates. Get the best KES to UGX conversion rate today. Free, fast, and accurate currency calculator for Kenya and Uganda.';
+const canonicalUrl = '/kes-ugx';
+const keywords = 'KES to UGX, Kenya Shillings to Uganda Shillings, KES UGX exchange rate, convert KES to UGX, Kenya Uganda currency converter, KES to UGX today, Uganda Shilling to Kenya Shilling, KES UGX calculator, forex rates Kenya Uganda, money transfer Kenya to Uganda';
+
+// FAQ Schema Data
+const faqItems = [
+  {
+    question: 'What is the current KES to UGX exchange rate today?',
+    answer: 'Our KES to UGX converter shows the live interbank exchange rate, which is updated every 5 minutes. The rate you see is the current market rate based on reliable financial data sources. For the most accurate rate for large transactions, check with your bank or money transfer service.'
+  },
+  {
+    question: 'How do I convert Kenyan Shillings to Ugandan Shillings?',
+    answer: 'To convert KES to UGX: 1) Enter the amount in Kenyan Shillings, 2) Select KES as the "From" currency, 3) Select UGX as the "To" currency. The conversion happens automatically using the latest exchange rate. You can also use the switch button to quickly change between KES to UGX and UGX to KES conversions.'
+  },
+  {
+    question: 'How often are the KES to UGX exchange rates updated?',
+    answer: 'Our KES to UGX exchange rates are automatically updated every 5 minutes to ensure you get the most current market rates. You can also manually refresh the rates at any time by clicking the refresh button next to the rate display.'
+  },
+  {
+    question: 'Is this KES to UGX converter free to use?',
+    answer: 'Yes, our KES to UGX currency converter is completely free to use with no hidden charges. We don\'t charge any fees for using our conversion tool. However, if you\'re making an actual money transfer, the service you use (like banks or money transfer companies) may charge their own fees.'
+  },
+  {
+    question: 'What is the best way to send money from Kenya to Uganda?',
+    answer: 'For sending money from Kenya to Uganda, consider these options: 1) Digital money transfer services like WorldRemit or Wise often offer competitive rates, 2) Banks provide secure transfers but may have higher fees, 3) Mobile money services like M-Pesa to MTN Mobile Money, 4) Local forex bureaus for cash pickups. Always compare exchange rates and fees before making a transfer.'
+  },
+  {
+    question: 'Why does the KES to UGX exchange rate change?',
+    answer: 'The KES to UGX exchange rate fluctuates due to various economic factors including: 1) Supply and demand for each currency, 2) Economic indicators like inflation rates, 3) Interest rates set by central banks, 4) Political stability in both countries, 5) Trade balance between Kenya and Uganda. These factors cause the exchange rate to change throughout the trading day.'
+  },
+  {
+    question: 'Can I use this converter on my mobile phone?',
+    answer: 'Yes, our KES to UGX converter is fully responsive and works perfectly on all mobile devices including smartphones and tablets. The interface automatically adjusts to your screen size, making it easy to convert currencies on the go. You can even add our website to your home screen for quick access.'
+  },
+  {
+    question: 'Is there a limit to how much I can convert?',
+    answer: 'Our online converter has no limits for currency conversion calculations. However, if you\'re making an actual money transfer, the service you choose (like banks or money transfer companies) may have their own limits on transaction amounts. Always check with your service provider for their specific limits and requirements.'
+  }
+];
+
+// Structured Data
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CurrencyConverter",
+  "name": "KES to UGX Currency Converter",
+  "description": pageDescription,
+  "url": `https://convertksh.xyz${canonicalUrl}`,
+  "keywords": keywords,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://convertksh.xyz${canonicalUrl}`
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Convert KSH",
+    "url": "https://convertksh.xyz"
+  },
+  "inLanguage": "en",
+  "about": ["Currency Exchange", "Foreign Exchange", "Money Transfer"],
+  "audience": {
+    "@type": "Audience",
+    "name": "People needing to convert between Kenyan and Ugandan currencies"
+  },
+  "countryOfOrigin": {
+    "@type": "Country",
+    "name": "Kenya"
+  },
+  "areaServed": ["Kenya", "Uganda"],
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `https://convertksh.xyz/kes-ugx?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+};
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  structuredData={structuredData}
+>
+  <main class="bg-gray-900 text-white min-h-screen py-12 px-4">
+    <div class="max-w-2xl mx-auto">
+      <div class="text-center mb-10">
+        <h1 class="text-4xl font-bold mb-3 text-emerald-400">KES to UGX Converter</h1>
+        <p class="text-gray-300 max-w-2xl mx-auto">
+          Convert between Kenyan Shillings (KES) and Ugandan Shillings (UGX) with live, real-time exchange rates.
+          Our free currency calculator helps you get the best rates for money transfers between Kenya and Uganda.
+        </p>
+      </div>
+
+      <div class="bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <div class="flex flex-col space-y-4">
+          {/* Amount Input */}
+          <div>
+            <label for="amount-input" class="block text-sm font-medium text-gray-300 mb-1">Amount</label>
+            <div class="relative rounded-md shadow-sm">
+              <input
+                type="number"
+                id="amount-input"
+                class="bg-gray-700 text-white w-full p-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="0.00"
+                min="0"
+                step="0.01"
+              />
+            </div>
+          </div>
+
+          {/* Currency Selection */}
+          <div class="grid grid-cols-12 gap-4 items-end">
+            <div class="col-span-5">
+              <label for="from-currency" class="block text-sm font-medium text-gray-300 mb-1">From</label>
+              <select 
+                id="from-currency"
+                class="bg-gray-700 text-white w-full p-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              >
+                <option value="KES">Kenyan Shilling (KES)</option>
+                <option value="UGX">Ugandan Shilling (UGX)</option>
+              </select>
+            </div>
+            
+            <div class="col-span-2 flex justify-center">
+              <button 
+                id="switch-currencies" 
+                class="p-2 bg-gray-700 hover:bg-gray-600 rounded-full text-gray-300 hover:text-white transition-colors"
+                aria-label="Switch currencies"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+              </button>
+            </div>
+            
+            <div class="col-span-5">
+              <label for="to-currency" class="block text-sm font-medium text-gray-300 mb-1">To</label>
+              <select 
+                id="to-currency"
+                class="bg-gray-700 text-white w-full p-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              >
+                <option value="UGX">Ugandan Shilling (UGX)</option>
+                <option value="KES">Kenyan Shilling (KES)</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Result */}
+          <div class="mt-6 p-4 bg-gray-700 rounded-lg">
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="text-sm text-gray-400">Exchange Rate</div>
+                <div id="exchange-rate" class="text-lg font-medium">Loading...</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-400">Result</div>
+                <div id="result" class="text-2xl font-bold text-emerald-400">-</div>
+              </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-600 flex justify-between items-center">
+              <div id="last-updated" class="text-xs text-gray-400">Updating rates...</div>
+              <button 
+                id="refresh-rate" 
+                class="flex items-center text-emerald-400 hover:text-emerald-300 text-sm font-medium"
+              >
+                <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <svg id="loading-icon" class="hidden animate-spin h-4 w-4 mr-1 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Refresh Rates
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prose prose-invert max-w-none mt-12">
+        <h2 class="text-2xl font-bold mb-4">KES to UGX Exchange Rate Today</h2>
+        <p class="mb-4">
+          Our KES to UGX converter provides real-time exchange rates between the Kenyan Shilling (KES) and Ugandan Shilling (UGX). 
+          Whether you're traveling between Kenya and Uganda, sending money to family, or conducting cross-border business, our tool 
+          helps you get the most accurate conversion rates updated every 5 minutes.
+        </p>
+        
+        <h3 class="text-xl font-semibold mt-6 mb-3">Why Convert KES to UGX?</h3>
+        <p class="mb-4">
+          The Kenyan Shilling (KES) and Ugandan Shilling (UGX) are the official currencies of Kenya and Uganda respectively. 
+          With increasing trade and travel between these East African nations, having access to accurate currency conversion 
+          is essential for:
+        </p>
+        <ul class="list-disc pl-5 mb-4 space-y-2">
+          <li>Business transactions between Kenya and Uganda</li>
+          <li>Online shopping across borders</li>
+          <li>Travel and tourism expenses</li>
+          <li>Money transfers and remittances</li>
+          <li>Investment decisions in East Africa</li>
+        </ul>
+        
+        <h3 class="text-xl font-semibold mt-6 mb-3">How to Get the Best KES to UGX Rate</h3>
+        <p class="mb-4">
+          Exchange rates fluctuate throughout the day. For the best rates when converting larger amounts:
+        </p>
+        <ol class="list-decimal pl-5 mb-4 space-y-2">
+          <li>Check rates at different times of the day</li>
+          <li>Compare with local forex bureaus in Kenya and Uganda</li>
+          <li>Consider using digital money transfer services for better rates</li>
+          <li>Be aware of any additional fees or commissions</li>
+        </ol>
+        
+        <h3 class="text-xl font-semibold mt-6 mb-3">How to Use the Converter</h3>
+        <ol class="list-decimal pl-5 space-y-2 mb-6">
+          <li>Enter the amount you want to convert</li>
+          <li>Select the source currency (KES or UGX) from the dropdown</li>
+          <li>Select the target currency</li>
+          <li>View the converted amount instantly</li>
+          <li>Use the switch button to quickly reverse the conversion</li>
+        </ol>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">About the Currencies</h3>
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+          <div class="bg-gray-800 p-4 rounded-lg">
+            <h4 class="font-semibold text-emerald-400 mb-2">Kenyan Shilling (KES)</h4>
+            <p class="text-sm text-gray-300">
+              The official currency of Kenya, denoted by the symbol "KSh" or "Kes". The Central Bank of Kenya is responsible for issuing and regulating the Kenyan Shilling.
+            </p>
+          </div>
+          <div class="bg-gray-800 p-4 rounded-lg">
+            <h4 class="font-semibold text-emerald-400 mb-2">Ugandan Shilling (UGX)</h4>
+            <p class="text-sm text-gray-300">
+              The official currency of Uganda, denoted by the symbol "USh". The Bank of Uganda is responsible for issuing and regulating the Ugandan Shilling.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('KES-UGX Converter: DOM fully loaded');
+      
+      const amountInput = document.getElementById('amount-input');
+      const fromCurrency = document.getElementById('from-currency');
+      const toCurrency = document.getElementById('to-currency');
+      const resultDisplay = document.getElementById('result');
+      const exchangeRateDisplay = document.getElementById('exchange-rate');
+      const refreshButton = document.getElementById('refresh-rate');
+      const lastUpdatedDisplay = document.getElementById('last-updated');
+      const switchButton = document.getElementById('switch-currencies');
+
+      // Debug log all found elements
+      console.log('Found elements:', {
+        amountInput: !!amountInput,
+        fromCurrency: !!fromCurrency,
+        toCurrency: !!toCurrency,
+        resultDisplay: !!resultDisplay,
+        exchangeRateDisplay: !!exchangeRateDisplay,
+        refreshButton: !!refreshButton,
+        lastUpdatedDisplay: !!lastUpdatedDisplay,
+        switchButton: !!switchButton
+      });
+
+      if (!amountInput || !fromCurrency || !toCurrency || !resultDisplay || !exchangeRateDisplay || !refreshButton || !switchButton) {
+        console.error('KES-UGX Converter: One or more required DOM elements are missing.');
+        return;
+      }
+
+      let exchangeRate = null;
+      const CURRENCIES = {
+        'KES': 'Kenyan Shilling',
+        'UGX': 'Ugandan Shilling'
+      };
+
+      async function fetchRateAndConvert() {
+        try {
+          // Show loading state
+          refreshButton.disabled = true;
+          document.getElementById('refresh-icon').classList.add('hidden');
+          document.getElementById('loading-icon').classList.remove('hidden');
+          
+          // Using the same API but for UGX
+          const response = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/kes.json');
+          if (!response.ok) throw new Error('Network response was not ok');
+          
+          const data = await response.json();
+          console.log('API Response:', data);
+          
+          if (data.kes && data.kes.ugx) {
+            exchangeRate = data.kes.ugx;
+            updateRateDisplay();
+            lastUpdatedDisplay.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+            updateConversion();
+          } else {
+            throw new Error('Invalid data from API');
+          }
+        } catch (error) {
+          console.error('Failed to fetch exchange rate:', error);
+          exchangeRateDisplay.textContent = 'Error fetching rate. Try refreshing.';
+          resultDisplay.textContent = 'Error';
+        } finally {
+          // Reset loading state
+          refreshButton.disabled = false;
+          document.getElementById('refresh-icon').classList.remove('hidden');
+          document.getElementById('loading-icon').classList.add('hidden');
+        }
+      }
+
+      function updateRateDisplay() {
+        if (exchangeRate === null) return;
+        const from = fromCurrency.value;
+        const to = toCurrency.value;
+        
+        if (from === 'KES' && to === 'UGX') {
+          exchangeRateDisplay.textContent = `1 ${from} = ${exchangeRate.toFixed(2)} ${to}`;
+        } else if (from === 'UGX' && to === 'KES') {
+          exchangeRateDisplay.textContent = `1 ${from} = ${(1 / exchangeRate).toFixed(6)} ${to}`;
+        }
+      }
+
+      function updateConversion() {
+        if (exchangeRate === null) return;
+
+        // If input is empty, clear the result
+        if (!amountInput.value.trim()) {
+          resultDisplay.textContent = '-';
+          return;
+        }
+
+        const amount = parseFloat(amountInput.value);
+        
+        // If not a valid number, show error
+        if (isNaN(amount) || amount < 0) {
+          resultDisplay.textContent = 'Invalid amount';
+          return;
+        }
+        
+        let result;
+        
+        if (fromCurrency.value === 'KES' && toCurrency.value === 'UGX') {
+          result = amount * exchangeRate;
+        } else if (fromCurrency.value === 'UGX' && toCurrency.value === 'KES') {
+          result = amount / exchangeRate;
+        } else {
+          result = amount; // Same currency
+        }
+
+        resultDisplay.textContent = `${result.toLocaleString('en-US', { 
+          minimumFractionDigits: 2, 
+          maximumFractionDigits: 2 
+        })} ${toCurrency.value}`;
+      }
+
+      function switchCurrencies() {
+        const temp = fromCurrency.value;
+        fromCurrency.value = toCurrency.value;
+        toCurrency.value = temp;
+        
+        if (exchangeRate !== null) {
+          updateRateDisplay();
+          updateConversion();
+        }
+      }
+
+      // Event Listeners
+      amountInput.addEventListener('input', updateConversion);
+      fromCurrency.addEventListener('change', () => {
+        updateRateDisplay();
+        updateConversion();
+      });
+      toCurrency.addEventListener('change', () => {
+        updateRateDisplay();
+        updateConversion();
+      });
+      refreshButton.addEventListener('click', fetchRateAndConvert);
+      switchButton.addEventListener('click', switchCurrencies);
+
+      // Initial fetch
+      fetchRateAndConvert();
+
+      // Auto-refresh every 5 minutes (300000 ms)
+      setInterval(fetchRateAndConvert, 300000);
+      
+      // Test function to verify script is working
+      window.testKesUgxConverter = function() {
+        console.log('KES-UGX Converter: Test function called');
+        return {
+          version: '1.0.0',
+          status: 'working',
+          elementsFound: {
+            amountInput: !!amountInput,
+            fromCurrency: !!fromCurrency,
+            toCurrency: !!toCurrency,
+            resultDisplay: !!resultDisplay,
+            exchangeRateDisplay: !!exchangeRateDisplay,
+            refreshButton: !!refreshButton,
+            lastUpdatedDisplay: !!lastUpdatedDisplay,
+            switchButton: !!switchButton
+          }
+        };
+      };
+      
+      console.log('KES-UGX Converter: Test function available as window.testKesUgxConverter()');
+    });
+  </script>
+  
+  <FAQSchema faqItems={faqItems} />
+</Layout>
