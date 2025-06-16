@@ -130,6 +130,7 @@ const pageStructuredData = structuredData || defaultStructuredData;
       <!-- Desktop Navigation -->
       <nav class="hidden md:flex space-x-8">
         <a href="/" class="text-white hover:text-emerald-400 px-3 py-2 text-sm font-medium">Home</a>
+        <a href="/usd-to-kes" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">USD to KES</a>
         <a href="/paypal-to-mpesa" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">PayPal to MPESA</a>
         <a href="/crypto-to-kes" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Crypto to KES</a>
         <a href="/withdrawal-fees" class="text-gray-300 hover:text-emerald-400 px-3 py-2 text-sm font-medium">Withdrawal Fees</a>
@@ -140,6 +141,7 @@ const pageStructuredData = structuredData || defaultStructuredData;
       <!-- Mobile Navigation (hidden by default) -->
       <div id="mobile-menu" class="hidden md:hidden absolute left-0 w-48 mt-2 py-2 bg-gray-800 rounded-md shadow-lg z-10">
         <a href="/" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">Home</a>
+        <a href="/usd-to-kes" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">USD to KES</a>
         <a href="/paypal-to-mpesa" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">PayPal to MPESA</a>
         <a href="/crypto-to-kes" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">Crypto to KES</a>
         <a href="/withdrawal-fees" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-emerald-400">Withdrawal Fees</a>
@@ -162,8 +164,73 @@ const pageStructuredData = structuredData || defaultStructuredData;
       gtag('config', 'G-KPS5WNEY4T');
     </script>
   </head>
-  <body class="bg-gray-900">
-    <slot />
+  <body class="bg-gray-900 flex flex-col min-h-screen">
+    <div class="flex-grow">
+      <slot />
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <!-- About Us -->
+          <div>
+            <h3 class="text-emerald-400 font-semibold mb-4">About Us</h3>
+            <p class="text-sm text-gray-400">
+              Your trusted source for currency conversion and financial tools in Kenya. We provide accurate, real-time exchange rates and calculators.
+            </p>
+          </div>
+          
+          <!-- Quick Links -->
+          <div>
+            <h3 class="text-emerald-400 font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li><a href="/usd-to-kes" class="text-gray-300 hover:text-emerald-400 transition-colors">USD to KES</a></li>
+              <li><a href="/crypto-to-kes" class="text-gray-300 hover:text-emerald-400 transition-colors">Crypto to KES</a></li>
+              <li><a href="/paypal-to-mpesa" class="text-gray-300 hover:text-emerald-400 transition-colors">PayPal to MPESA</a></li>
+              <li><a href="/withdrawal-fees" class="text-gray-300 hover:text-emerald-400 transition-colors">Withdrawal Fees</a></li>
+            </ul>
+          </div>
+          
+          <!-- Legal -->
+          <div>
+            <h3 class="text-emerald-400 font-semibold mb-4">Legal</h3>
+            <ul class="space-y-2">
+              <li><a href="/terms" class="text-gray-300 hover:text-emerald-400 transition-colors">Terms of Service</a></li>
+              <li><a href="/privacy" class="text-gray-300 hover:text-emerald-400 transition-colors">Privacy Policy</a></li>
+              <li><a href="/legal" class="text-gray-300 hover:text-emerald-400 transition-colors">Legal Information</a></li>
+            </ul>
+          </div>
+          
+          <!-- Contact -->
+          <div>
+            <h3 class="text-emerald-400 font-semibold mb-4">Contact</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <a href="mailto:contact@convertksh.xyz" class="text-gray-300 hover:text-emerald-400 transition-colors">contact@convertksh.xyz</a>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span>+254 713093388</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Copyright -->
+        <div class="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-400">
+          <p>© {new Date().getFullYear()} ConvertKSH. All rights reserved.</p>
+          <p class="mt-1">
+            Exchange rates are for informational purposes only and may vary by service provider.
+          </p>
+        </div>
+      </div>
+    </footer>
     
     <script>
       // Mobile menu functionality

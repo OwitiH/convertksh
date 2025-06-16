@@ -1,0 +1,300 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+
+const pageTitle = 'USD to KES Converter | Live Exchange Rate (US Dollar to Kenya Shillings)';
+const pageDescription = 'Convert USD to KES (US Dollar to Kenya Shillings) with our live exchange rate calculator. Get accurate USD/KES conversion rates updated in real-time.';
+const canonicalUrl = '/usd-to-kes';
+
+const faqItems = [
+  {
+    question: 'What is the current USD to KES exchange rate?',
+    answer: 'Our USD to KES (US Dollar to Kenya Shillings) rates are updated in real-time using reliable financial data sources. The exchange rate you see is the current market rate, though your bank or money transfer service may apply a slightly different rate.'
+  },
+  {
+    question: 'How do I convert USD to KES?',
+    answer: 'To convert USD to KES (Kenya Shillings), simply enter the amount in US Dollars in the converter above. The tool will automatically show you the equivalent amount in KES using the latest exchange rate.'
+  }
+];
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+>
+  <main class="bg-gray-900 text-white min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+        <a href="/" class="text-emerald-400 hover:text-emerald-300 flex items-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          </svg>
+          Back to Home
+        </a>
+        <h1 class="text-3xl font-bold mb-2">USD to KES Converter</h1>
+        <p class="text-gray-400">Convert US Dollars (USD) to Kenyan Shillings (KES) using our live exchange rate calculator.</p>
+      </div>
+
+      <div class="bg-gray-800 rounded-lg p-6 mb-8">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="flex-1">
+            <label for="usd-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount in <span id="from-currency">USD</span></label>
+            <div class="relative">
+              <div id="from-currency-symbol" class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-gray-400">$</span>
+              </div>
+              <input
+                type="number"
+                id="usd-amount"
+                class="bg-gray-700 text-white rounded-lg pl-12 pr-4 py-3 w-full focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+              />
+            </div>
+            <div id="preset-amounts" class="flex flex-wrap gap-2 mt-3">
+              {[10, 50, 100, 500, 1000].map(amount => (
+                <button 
+                  class="bg-gray-700 hover:bg-gray-600 text-sm px-3 py-1 rounded transition-colors"
+                  data-amount={amount}
+                >
+                  ${amount}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-center">
+            <button id="swap-currencies" class="bg-gray-700 p-2 rounded-full hover:bg-gray-600 transition-colors" aria-label="Swap currencies">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+            </button>
+          </div>
+          
+          <div class="flex-1">
+            <label for="kes-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount in <span id="to-currency">KES</span></label>
+            <div class="relative">
+              <div id="to-currency-symbol" class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-gray-400">KSh</span>
+              </div>
+              <input
+                type="number"
+                id="kes-amount"
+                class="bg-gray-700 text-white rounded-lg pl-16 pr-4 py-3 w-full focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="0.00"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6 pt-6 border-t border-gray-700">
+          <div class="flex justify-between items-center">
+            <div class="text-sm text-gray-400">
+              <span id="rate-display">1 USD = 0.00 KES</span>
+              <span id="last-updated" class="block text-xs mt-1">Updating rates...</span>
+            </div>
+            <button id="refresh-rates" class="text-emerald-400 hover:text-emerald-300 text-sm font-medium flex items-center">
+              <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh Rates
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="prose prose-invert max-w-none">
+        <h2 class="text-xl font-semibold mb-4">About USD to KES Conversion</h2>
+        <p class="text-gray-300">
+          Our USD to KES converter provides real-time exchange rates between the US Dollar (USD) and Kenyan Shilling (KES). 
+          The rates are updated frequently to ensure accuracy for your currency conversion needs.
+        </p>
+        <h3 class="text-lg font-medium mt-6 mb-3">How to Convert USD to KES</h3>
+        <ol class="list-decimal pl-5 space-y-2 text-gray-300">
+          <li>Enter the amount in US Dollars (USD) in the input field</li>
+          <li>The equivalent amount in Kenyan Shillings (KES) will be calculated automatically</li>
+          <li>Use the preset amounts for quick conversions of common values</li>
+          <li>Click the swap button to convert from KES to USD instead</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const usdAmountInput = document.getElementById('usd-amount');
+      const kesAmountInput = document.getElementById('kes-amount');
+      const rateDisplay = document.getElementById('rate-display');
+      const lastUpdated = document.getElementById('last-updated');
+      const refreshBtn = document.getElementById('refresh-rates');
+      const refreshIcon = document.getElementById('refresh-icon');
+      const swapBtn = document.getElementById('swap-currencies');
+      const presetButtons = document.querySelectorAll('[data-amount]');
+
+      let currentRate = 0;
+      let lastUpdateTime = null;
+      let isSwapped = false;
+
+      // Fetch exchange rate from API
+      async function fetchExchangeRate() {
+        try {
+          // Show loading state
+          refreshBtn.disabled = true;
+          refreshIcon.classList.add('animate-spin');
+          
+          // Add timestamp to prevent caching
+          const timestamp = new Date().getTime();
+          
+          // Fetch USD to KES rate from currency-api
+          const response = await fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json?t=${timestamp}`);
+          
+          if (!response.ok) {
+            throw new Error('Failed to fetch exchange rates');
+          }
+          
+          const data = await response.json();
+          currentRate = data.usd.kes;
+          lastUpdateTime = new Date();
+          
+          updateRateDisplay();
+          updateConversion();
+          
+          // Show success state briefly
+          lastUpdated.classList.remove('text-red-500');
+          lastUpdated.textContent = 'Rates updated';
+          
+          setTimeout(() => {
+            updateLastUpdatedText();
+          }, 2000);
+          
+          return true;
+        } catch (error) {
+          console.error('Error fetching exchange rate:', error);
+          lastUpdated.textContent = 'Failed to update rates. Click refresh to try again.';
+          lastUpdated.classList.add('text-red-500');
+          return false;
+        } finally {
+          refreshBtn.disabled = false;
+          refreshIcon.classList.remove('animate-spin');
+        }
+      }
+      
+      // Format the last updated time
+      function updateLastUpdatedText() {
+        if (lastUpdateTime) {
+          const options = { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZoneName: 'short'
+          };
+          lastUpdated.textContent = `Updated: ${lastUpdateTime.toLocaleString('en-US', options)}`;
+        }
+      }
+
+      // Update the rate display
+      function updateRateDisplay() {
+        if (isSwapped) {
+          rateDisplay.textContent = `1 KES = ${(1 / currentRate).toFixed(6)} USD`;
+        } else {
+          rateDisplay.textContent = `1 USD = ${currentRate.toFixed(2)} KES`;
+        }
+        updateLastUpdatedText();
+      }
+
+      // Update the conversion
+      function updateConversion() {
+        let usdValue = parseFloat(usdAmountInput.value) || 0;
+        
+        if (isSwapped) {
+          const kesValue = usdValue; // The input is actually KES when swapped
+          const convertedUsd = (kesValue / currentRate).toFixed(2);
+          kesAmountInput.value = convertedUsd;
+        } else {
+          const convertedKes = (usdValue * currentRate).toFixed(2);
+          kesAmountInput.value = convertedKes;
+        }
+      }
+
+      // Toggle between USD→KES and KES→USD
+      function swapCurrencies() {
+        isSwapped = !isSwapped;
+        
+        // Swap input values
+        const usdValue = usdAmountInput.value;
+        const kesValue = kesAmountInput.value;
+        
+        usdAmountInput.value = kesValue;
+        kesAmountInput.value = usdValue;
+        
+        // Update currency labels and symbols
+        const fromCurrency = document.getElementById('from-currency');
+        const toCurrency = document.getElementById('to-currency');
+        const fromSymbol = document.getElementById('from-currency-symbol');
+        const toSymbol = document.getElementById('to-currency-symbol');
+        const presetAmounts = document.getElementById('preset-amounts');
+        
+        if (isSwapped) {
+          fromCurrency.textContent = 'KES';
+          toCurrency.textContent = 'USD';
+          fromSymbol.innerHTML = '<span class="text-gray-400">KSh</span>';
+          toSymbol.innerHTML = '<span class="text-gray-400">$</span>';
+          presetAmounts.classList.add('hidden');
+          // Adjust input padding for KSh symbol
+          usdAmountInput.classList.remove('pl-12');
+          usdAmountInput.classList.add('pl-16');
+        } else {
+          fromCurrency.textContent = 'USD';
+          toCurrency.textContent = 'KES';
+          fromSymbol.innerHTML = '<span class="text-gray-400">$</span>';
+          toSymbol.innerHTML = '<span class="text-gray-400">KSh</span>';
+          presetAmounts.classList.remove('hidden');
+          // Reset input padding for $ symbol
+          usdAmountInput.classList.remove('pl-16');
+          usdAmountInput.classList.add('pl-12');
+        }
+        
+        updateRateDisplay();
+      }
+
+      // Event Listeners
+      usdAmountInput.addEventListener('input', updateConversion);
+      refreshBtn.addEventListener('click', () => {
+        refreshIcon.classList.add('animate-spin');
+        fetchExchangeRate().then(() => {
+          setTimeout(() => {
+            refreshIcon.classList.remove('animate-spin');
+          }, 500);
+        });
+      });
+      
+      swapBtn.addEventListener('click', swapCurrencies);
+      
+      presetButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const amount = button.getAttribute('data-amount');
+          usdAmountInput.value = amount;
+          updateConversion();
+          
+          // Smooth scroll to the input
+          usdAmountInput.focus();
+          window.scrollTo({
+            top: usdAmountInput.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      // Initial fetch
+      fetchExchangeRate();
+    });
+  </script>
+  
+  <FAQSchema faqItems={faqItems} />
+</Layout>
