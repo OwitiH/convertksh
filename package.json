@@ -12,6 +12,8 @@
     "@astrojs/sitemap": "^3.4.1",
     "@tailwindcss/vite": "^4.1.8",
     "astro": "^5.9.2",
+    "chart.js": "^4.5.0",
+    "date-fns": "^4.1.0",
     "tailwindcss": "^4.1.8"
   },
   "devDependencies": {
