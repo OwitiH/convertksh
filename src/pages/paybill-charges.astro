@@ -1,0 +1,260 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+
+const pageTitle = 'M-PESA Paybill Charges Calculator | Kenya 2024';
+const pageDescription = 'Calculate M-PESA Paybill charges in Kenya. Find out how much it costs to send money via Paybill based on the amount and who pays the fee.';
+const canonicalUrl = '/paybill-charges';
+
+const faqItems = [
+  {
+    question: 'How much does it cost to send money via Paybill?',
+    answer: 'M-PESA Paybill charges vary based on the amount sent. For example: 1-100 KES is free, 101-500 KES costs 11 KES, 501-1,000 KES costs 15 KES, and so on up to 20,001-150,000 KES which costs 87 KES.'
+  },
+  {
+    question: 'Who pays the Paybill charge?',
+    answer: 'The Paybill charge can be paid by either the customer (sender) or the business (recipient). When the customer pays, the total amount deducted includes the transaction amount plus the charge. When the business pays, the charge is deducted from the amount sent.'
+  },
+  {
+    question: 'Is Paybill cheaper than Send Money?',
+    answer: 'Paybill charges are generally lower than Send Money charges for equivalent amounts. Paybill is designed for business transactions and typically offers better rates, especially for larger amounts.'
+  },
+  {
+    question: 'Are there any free Paybill transactions?',
+    answer: 'Yes, transactions of 1-100 KES via Paybill are currently free of charge.'
+  },
+  {
+    question: 'How often do Paybill charges change?',
+    answer: 'M-PESA occasionally updates its tariff structure. While changes are not frequent, it\'s recommended to check for the latest rates periodically or before large transactions.'
+  }
+];
+
+// Paybill charges based on amount ranges (KES)
+const paybillCharges = [
+  { min: 1, max: 100, charge: 0 },
+  { min: 101, max: 500, charge: 11 },
+  { min: 501, max: 1000, charge: 15 },
+  { min: 1001, max: 1500, charge: 20 },
+  { min: 1501, max: 2500, charge: 25 },
+  { min: 2501, max: 3500, charge: 40 },
+  { min: 3501, max: 5000, charge: 55 },
+  { min: 5001, max: 7500, charge: 60 },
+  { min: 7501, max: 10000, charge: 65 },
+  { min: 10001, max: 20000, charge: 75 },
+  { min: 20001, max: 150000, charge: 87 }
+];
+
+// Function to calculate charges (also available in client-side JS)
+function calculatePaybillCharge(amount) {
+  if (!amount || amount < 1) return { charge: 0 };
+  
+  const range = paybillCharges.find(range => amount >= range.min && amount <= range.max);
+  return range || { charge: 0 };
+}
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+>
+  <main class="bg-gray-900 text-white min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+        <a href="/" class="text-emerald-400 hover:text-emerald-300 flex items-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          </svg>
+          Back to Home
+        </a>
+        <h1 class="text-3xl font-bold mb-2">M-PESA Paybill Charges Calculator</h1>
+        <p class="text-gray-400">Calculate the charges for sending money via M-PESA Paybill in Kenya</p>
+      </div>
+
+      <div class="bg-gray-800 rounded-lg p-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="amount" class="block text-sm font-medium text-gray-300 mb-2">Amount to Send (KES)</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-gray-400">KSh</span>
+              </div>
+              <input
+                type="number"
+                id="amount"
+                min="1"
+                max="150000"
+                class="bg-gray-700 text-white rounded-lg pl-16 pr-4 py-3 w-full focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="Enter amount"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label for="fee-payer" class="block text-sm font-medium text-gray-300 mb-2">Who Pays the Fee?</label>
+            <select
+              id="fee-payer"
+              class="bg-gray-700 text-white rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            >
+              <option value="customer">Customer Pays Fee</option>
+              <option value="business">Business Pays Fee</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-gray-700 rounded-lg" id="result" style="display: none;">
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span class="text-gray-300">M-PESA Paybill Charge:</span>
+              <span class="font-medium" id="charge-amount">-</span>
+            </div>
+            <div class="flex justify-between text-lg font-semibold" id="total-section">
+              <span id="total-label">Total Deducted:</span>
+              <span id="total-amount">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <button
+            id="calculate-btn"
+            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+          >
+            Calculate Charges
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-gray-800 rounded-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6 text-emerald-400">Current M-PESA Paybill Charges</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-700">
+            <thead>
+              <tr>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount Range (KES)</th>
+                <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Charge (KES)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-700">
+              {paybillCharges.map((range, index) => (
+                <tr key={index} class={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                    {range.min.toLocaleString()} - {range.max.toLocaleString()}
+                  </td>
+                  <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-white">
+                    {range.charge === 0 ? 'Free' : range.charge.toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="prose prose-invert max-w-none">
+        <h2 class="text-2xl font-bold mb-6 text-emerald-400">About M-PESA Paybill Charges</h2>
+        
+        <div class="bg-gray-800 p-6 rounded-lg mb-8">
+          <p class="mb-4 text-gray-300">
+            M-PESA Paybill is a service that allows customers to make payments to businesses and organizations directly from their M-PESA account. 
+            The service is widely used for bill payments, school fees, government services, and other business transactions in Kenya.
+          </p>
+          
+          <h3 class="text-xl font-semibold mt-6 mb-3">How Paybill Charges Work</h3>
+          <p class="mb-4 text-gray-300">
+            The charges for M-PESA Paybill transactions are based on the amount being sent. The fee structure is designed to be affordable for both 
+            small and large transactions, with a maximum charge of KSh 87 for amounts between KSh 20,001 and KSh 150,000.
+          </p>
+          
+          <h3 class="text-xl font-semibold mt-6 mb-3">Who Pays the Charges?</h3>
+          <p class="mb-4 text-gray-300">
+            There are two ways Paybill charges can be handled:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-gray-300 mb-4">
+            <li><strong>Customer Pays:</strong> The full amount plus the transaction fee is deducted from the customer's M-PESA balance.</li>
+            <li><strong>Business Pays:</strong> The transaction fee is deducted from the amount sent, so the business receives the amount minus the fee.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <FAQSchema faqItems={faqItems} />
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const amountInput = document.getElementById('amount');
+      const feePayerSelect = document.getElementById('fee-payer');
+      const calculateBtn = document.getElementById('calculate-btn');
+      const resultDiv = document.getElementById('result');
+      const chargeAmount = document.getElementById('charge-amount');
+      const totalLabel = document.getElementById('total-label');
+      const totalAmount = document.getElementById('total-amount');
+
+      // Paybill charges data (same as server-side for consistency)
+      const paybillCharges = [
+        { min: 1, max: 100, charge: 0 },
+        { min: 101, max: 500, charge: 11 },
+        { min: 501, max: 1000, charge: 15 },
+        { min: 1001, max: 1500, charge: 20 },
+        { min: 1501, max: 2500, charge: 25 },
+        { min: 2501, max: 3500, charge: 40 },
+        { min: 3501, max: 5000, charge: 55 },
+        { min: 5001, max: 7500, charge: 60 },
+        { min: 7501, max: 10000, charge: 65 },
+        { min: 10001, max: 20000, charge: 75 },
+        { min: 20001, max: 150000, charge: 87 }
+      ];
+
+      // Function to calculate charges
+      function calculateCharge(amount) {
+        if (!amount || amount < 1) return { charge: 0 };
+        
+        const range = paybillCharges.find(range => amount >= range.min && amount <= range.max);
+        return range || { charge: 0 };
+      }
+
+      // Format currency
+      function formatCurrency(amount) {
+        return 'KSh ' + Number(amount).toLocaleString('en-KE', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      // Update results
+      function updateResults() {
+        const amount = parseFloat(amountInput.value);
+        const feePayer = feePayerSelect.value;
+        
+        if (isNaN(amount) || amount < 1) {
+          resultDiv.style.display = 'none';
+          return;
+        }
+        
+        const { charge } = calculateCharge(amount);
+        
+        // Update UI
+        chargeAmount.textContent = charge === 0 ? 'Free' : formatCurrency(charge);
+        
+        if (feePayer === 'customer') {
+          totalLabel.textContent = 'Total Deducted:';
+          totalAmount.textContent = formatCurrency(amount + charge);
+        } else {
+          totalLabel.textContent = 'Amount Received:';
+          totalAmount.textContent = formatCurrency(amount - charge);
+        }
+        
+        resultDiv.style.display = 'block';
+      }
+
+      // Event Listeners
+      calculateBtn.addEventListener('click', updateResults);
+      amountInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') updateResults();
+      });
+      feePayerSelect.addEventListener('change', updateResults);
+    });
+  </script>
+</Layout>
