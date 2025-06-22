@@ -2,54 +2,120 @@
 import Layout from '../layouts/Layout.astro';
 import FAQSchema from '../components/FAQSchema.astro';
 
-const pageTitle = 'M-PESA Paybill Charges Calculator | Kenya 2024';
-const pageDescription = 'Calculate M-PESA Paybill charges in Kenya. Find out how much it costs to send money via Paybill based on the amount and who pays the fee.';
+const pageTitle = 'M-PESA Paybill Charges Calculator | Kenya 2025';
+const pageDescription = 'Calculate M-PESA Paybill charges in Kenya with the latest 2025 tariffs including Mgao, Business Bouquet, and Customer Bouquet options.';
 const canonicalUrl = '/paybill-charges';
 
 const faqItems = [
   {
-    question: 'How much does it cost to send money via Paybill?',
-    answer: 'M-PESA Paybill charges vary based on the amount sent. For example: 1-100 KES is free, 101-500 KES costs 11 KES, 501-1,000 KES costs 15 KES, and so on up to 20,001-150,000 KES which costs 87 KES.'
+    question: 'What are the different M-PESA Paybill tariff types?',
+    answer: 'There are three tariff types: 1) Mgao Tariff - charges are split between customer and business, 2) Business Bouquet - customer pays all charges, and 3) Customer Bouquet - business pays all charges.'
   },
   {
-    question: 'Who pays the Paybill charge?',
-    answer: 'The Paybill charge can be paid by either the customer (sender) or the business (recipient). When the customer pays, the total amount deducted includes the transaction amount plus the charge. When the business pays, the charge is deducted from the amount sent.'
+    question: 'Which Paybill tariff is the most cost-effective for customers?',
+    answer: 'The Customer Bouquet tariff is most cost-effective for customers as they pay no transaction fees. The business absorbs all charges in this model.'
   },
   {
-    question: 'Is Paybill cheaper than Send Money?',
-    answer: 'Paybill charges are generally lower than Send Money charges for equivalent amounts. Paybill is designed for business transactions and typically offers better rates, especially for larger amounts.'
+    question: 'How do I know which tariff a Paybill number uses?',
+    answer: 'The tariff type is determined by the business when they register their Paybill. You can check with the specific business or look for fee disclosures during the payment process.'
   },
   {
     question: 'Are there any free Paybill transactions?',
-    answer: 'Yes, transactions of 1-100 KES via Paybill are currently free of charge.'
+    answer: 'Yes, transactions of 1-100 KES via Paybill are free across all tariff types.'
   },
   {
-    question: 'How often do Paybill charges change?',
-    answer: 'M-PESA occasionally updates its tariff structure. While changes are not frequent, it\'s recommended to check for the latest rates periodically or before large transactions.'
+    question: 'What is the maximum amount I can send via Paybill?',
+    answer: 'The maximum amount you can send via Paybill is 250,000 KES per transaction.'
   }
 ];
 
-// Paybill charges based on amount ranges (KES)
-const paybillCharges = [
-  { min: 1, max: 100, charge: 0 },
-  { min: 101, max: 500, charge: 11 },
-  { min: 501, max: 1000, charge: 15 },
-  { min: 1001, max: 1500, charge: 20 },
-  { min: 1501, max: 2500, charge: 25 },
-  { min: 2501, max: 3500, charge: 40 },
-  { min: 3501, max: 5000, charge: 55 },
-  { min: 5001, max: 7500, charge: 60 },
-  { min: 7501, max: 10000, charge: 65 },
-  { min: 10001, max: 20000, charge: 75 },
-  { min: 20001, max: 150000, charge: 87 }
-];
+// Paybill charges based on amount ranges (KES) for different tariff types
+const tariffCharges = {
+  // Mgao Tariff - Split between customer and business
+  mgao: [
+    { min: 0, max: 49, customer: 0, business: 0, total: 0 },
+    { min: 50, max: 100, customer: 0, business: 0, total: 0 },
+    { min: 101, max: 500, customer: 5, business: 0, total: 5 },
+    { min: 501, max: 1000, customer: 10, business: 0, total: 10 },
+    { min: 1001, max: 1500, customer: 10, business: 5, total: 15 },
+    { min: 1501, max: 2500, customer: 13, business: 7, total: 20 },
+    { min: 2501, max: 3500, customer: 16, business: 9, total: 25 },
+    { min: 3501, max: 5000, customer: 16, business: 18, total: 34 },
+    { min: 5001, max: 7500, customer: 17, business: 25, total: 42 },
+    { min: 7501, max: 10000, customer: 18, business: 30, total: 48 },
+    { min: 10001, max: 15000, customer: 18, business: 39, total: 57 },
+    { min: 15001, max: 20000, customer: 19, business: 43, total: 62 },
+    { min: 20001, max: 25000, customer: 20, business: 47, total: 67 },
+    { min: 25001, max: 30000, customer: 20, business: 52, total: 72 },
+    { min: 30001, max: 35000, customer: 21, business: 62, total: 83 },
+    { min: 35001, max: 40000, customer: 23, business: 76, total: 99 },
+    { min: 40001, max: 45000, customer: 23, business: 80, total: 103 },
+    { min: 45001, max: 50000, customer: 24, business: 84, total: 108 },
+    { min: 50001, max: 70000, customer: 24, business: 84, total: 108 },
+    { min: 70001, max: 250000, customer: 24, business: 84, total: 108 }
+  ],
+  // Business Bouquet - Customer pays all charges
+  businessBouquet: [
+    { min: 0, max: 49, charge: 0 },
+    { min: 50, max: 100, charge: 0 },
+    { min: 101, max: 500, charge: 5 },
+    { min: 501, max: 1000, charge: 10 },
+    { min: 1001, max: 1500, charge: 15 },
+    { min: 1501, max: 2500, charge: 20 },
+    { min: 2501, max: 3500, charge: 25 },
+    { min: 3501, max: 5000, charge: 34 },
+    { min: 5001, max: 7500, charge: 42 },
+    { min: 7501, max: 10000, charge: 48 },
+    { min: 10001, max: 15000, charge: 57 },
+    { min: 15001, max: 20000, charge: 62 },
+    { min: 20001, max: 25000, charge: 67 },
+    { min: 25001, max: 30000, charge: 72 },
+    { min: 30001, max: 35000, charge: 83 },
+    { min: 35001, max: 40000, charge: 99 },
+    { min: 40001, max: 45000, charge: 103 },
+    { min: 45001, max: 50000, charge: 108 },
+    { min: 50001, max: 70000, charge: 108 },
+    { min: 70001, max: 250000, charge: 108 }
+  ],
+  // Customer Bouquet - Business pays all charges (same charges as business bouquet)
+  customerBouquet: [
+    { min: 0, max: 49, charge: 0 },
+    { min: 50, max: 100, charge: 0 },
+    { min: 101, max: 500, charge: 5 },
+    { min: 501, max: 1000, charge: 10 },
+    { min: 1001, max: 1500, charge: 15 },
+    { min: 1501, max: 2500, charge: 20 },
+    { min: 2501, max: 3500, charge: 25 },
+    { min: 3501, max: 5000, charge: 34 },
+    { min: 5001, max: 7500, charge: 42 },
+    { min: 7501, max: 10000, charge: 48 },
+    { min: 10001, max: 15000, charge: 57 },
+    { min: 15001, max: 20000, charge: 62 },
+    { min: 20001, max: 25000, charge: 67 },
+    { min: 25001, max: 30000, charge: 72 },
+    { min: 30001, max: 35000, charge: 83 },
+    { min: 35001, max: 40000, charge: 99 },
+    { min: 40001, max: 45000, charge: 103 },
+    { min: 45001, max: 50000, charge: 108 },
+    { min: 50001, max: 70000, charge: 108 },
+    { min: 70001, max: 250000, charge: 108 }
+  ]
+};
 
-// Function to calculate charges (also available in client-side JS)
-function calculatePaybillCharge(amount) {
+// Function to calculate charges based on tariff type and amount
+function calculatePaybillCharge(amount, tariffType) {
   if (!amount || amount < 1) return { charge: 0 };
   
-  const range = paybillCharges.find(range => amount >= range.min && amount <= range.max);
-  return range || { charge: 0 };
+  let charges;
+  
+  if (tariffType === 'mgao') {
+    const range = tariffCharges.mgao.find(range => amount >= range.min && amount <= range.max);
+    return range ? { ...range, charge: range.total } : { charge: 0, customer: 0, business: 0, total: 0 };
+  } else {
+    const tariff = tariffType === 'businessBouquet' ? 'businessBouquet' : 'customerBouquet';
+    const range = tariffCharges[tariff].find(range => amount >= range.min && amount <= range.max);
+    return range ? { charge: range.charge } : { charge: 0 };
+  }
 }
 ---
 
@@ -91,26 +157,40 @@ function calculatePaybillCharge(amount) {
           </div>
           
           <div>
-            <label for="fee-payer" class="block text-sm font-medium text-gray-300 mb-2">Who Pays the Fee?</label>
+            <label for="tariff-type" class="block text-sm font-medium text-gray-300 mb-2">Tariff Type</label>
             <select
-              id="fee-payer"
+              id="tariff-type"
               class="bg-gray-700 text-white rounded-lg px-4 py-3 w-full focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             >
-              <option value="customer">Customer Pays Fee</option>
-              <option value="business">Business Pays Fee</option>
+              <option value="mgao">Mgao Tariff (Cost Sharing)</option>
+              <option value="businessBouquet">Business Bouquet (Customer Pays All)</option>
+              <option value="customerBouquet">Customer Bouquet (Business Pays All)</option>
             </select>
           </div>
         </div>
 
         <div class="mt-6 p-4 bg-gray-700 rounded-lg" id="result" style="display: none;">
-          <div class="space-y-2">
+          <div class="space-y-3">
             <div class="flex justify-between">
               <span class="text-gray-300">M-PESA Paybill Charge:</span>
               <span class="font-medium" id="charge-amount">-</span>
             </div>
-            <div class="flex justify-between text-lg font-semibold" id="total-section">
+            <div id="fee-breakdown" class="space-y-1 pl-4 border-l-2 border-gray-600 hidden">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-400">Customer Portion:</span>
+                <span id="customer-portion">-</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-400">Business Portion:</span>
+                <span id="business-portion">-</span>
+              </div>
+            </div>
+            <div class="flex justify-between text-lg font-semibold pt-2 border-t border-gray-600">
               <span id="total-label">Total Deducted:</span>
               <span id="total-amount">-</span>
+            </div>
+            <div class="text-xs text-gray-400 mt-2" id="fee-info">
+              <p id="fee-info-text"></p>
             </div>
           </div>
         </div>
@@ -126,28 +206,92 @@ function calculatePaybillCharge(amount) {
       </div>
 
       <div class="bg-gray-800 rounded-lg p-6 mb-8">
-        <h2 class="text-2xl font-bold mb-6 text-emerald-400">Current M-PESA Paybill Charges</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-700">
-            <thead>
-              <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount Range (KES)</th>
-                <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Charge (KES)</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-700">
-              {paybillCharges.map((range, index) => (
-                <tr key={index} class={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
-                  <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
-                    {range.min.toLocaleString()} - {range.max.toLocaleString()}
-                  </td>
-                  <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-white">
-                    {range.charge === 0 ? 'Free' : range.charge.toLocaleString()}
-                  </td>
+        <h2 class="text-2xl font-bold mb-6 text-emerald-400">2025 M-PESA Paybill Tariffs</h2>
+        
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold mb-3 text-emerald-300">Mgao Tariff (Cost Sharing)</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead>
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount Range (KES)</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Customer Pays</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Business Pays</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Total Fee</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-gray-700">
+                {tariffCharges.mgao.map((range, index) => (
+                  <tr key={`mgao-${index}`} class={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                      {range.min === 0 ? '0' : range.min.toLocaleString()} - {range.max.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm text-gray-300">
+                      {range.customer === 0 ? 'Free' : range.customer.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm text-gray-300">
+                      {range.business === 0 ? 'Free' : range.business.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-white">
+                      {range.total === 0 ? 'Free' : range.total.toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold mb-3 text-emerald-300">Business Bouquet (Customer Pays All)</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead>
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount Range (KES)</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Customer Pays</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-700">
+                {tariffCharges.businessBouquet.map((range, index) => (
+                  <tr key={`business-${index}`} class={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                      {range.min === 0 ? '0' : range.min.toLocaleString()} - {range.max.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-white">
+                      {range.charge === 0 ? 'Free' : range.charge.toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-3 text-emerald-300">Customer Bouquet (Business Pays All)</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead>
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount Range (KES)</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Business Pays</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-700">
+                {tariffCharges.customerBouquet.map((range, index) => (
+                  <tr key={`customer-${index}`} class={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                      {range.min === 0 ? '0' : range.min.toLocaleString()} - {range.max.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-white">
+                      {range.charge === 0 ? 'Free' : range.charge.toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -185,34 +329,99 @@ function calculatePaybillCharge(amount) {
     document.addEventListener('DOMContentLoaded', () => {
       // DOM Elements
       const amountInput = document.getElementById('amount');
-      const feePayerSelect = document.getElementById('fee-payer');
+      const tariffTypeSelect = document.getElementById('tariff-type');
       const calculateBtn = document.getElementById('calculate-btn');
       const resultDiv = document.getElementById('result');
       const chargeAmount = document.getElementById('charge-amount');
+      const customerPortion = document.getElementById('customer-portion');
+      const businessPortion = document.getElementById('business-portion');
       const totalLabel = document.getElementById('total-label');
       const totalAmount = document.getElementById('total-amount');
+      const feeBreakdown = document.getElementById('fee-breakdown');
+      const feeInfoText = document.getElementById('fee-info-text');
 
-      // Paybill charges data (same as server-side for consistency)
-      const paybillCharges = [
-        { min: 1, max: 100, charge: 0 },
-        { min: 101, max: 500, charge: 11 },
-        { min: 501, max: 1000, charge: 15 },
-        { min: 1001, max: 1500, charge: 20 },
-        { min: 1501, max: 2500, charge: 25 },
-        { min: 2501, max: 3500, charge: 40 },
-        { min: 3501, max: 5000, charge: 55 },
-        { min: 5001, max: 7500, charge: 60 },
-        { min: 7501, max: 10000, charge: 65 },
-        { min: 10001, max: 20000, charge: 75 },
-        { min: 20001, max: 150000, charge: 87 }
-      ];
+      // Tariff charges data (same as server-side for consistency)
+      const tariffCharges = {
+        mgao: [
+          { min: 0, max: 49, customer: 0, business: 0, total: 0 },
+          { min: 50, max: 100, customer: 0, business: 0, total: 0 },
+          { min: 101, max: 500, customer: 5, business: 0, total: 5 },
+          { min: 501, max: 1000, customer: 10, business: 0, total: 10 },
+          { min: 1001, max: 1500, customer: 10, business: 5, total: 15 },
+          { min: 1501, max: 2500, customer: 13, business: 7, total: 20 },
+          { min: 2501, max: 3500, customer: 16, business: 9, total: 25 },
+          { min: 3501, max: 5000, customer: 16, business: 18, total: 34 },
+          { min: 5001, max: 7500, customer: 17, business: 25, total: 42 },
+          { min: 7501, max: 10000, customer: 18, business: 30, total: 48 },
+          { min: 10001, max: 15000, customer: 18, business: 39, total: 57 },
+          { min: 15001, max: 20000, customer: 19, business: 43, total: 62 },
+          { min: 20001, max: 25000, customer: 20, business: 47, total: 67 },
+          { min: 25001, max: 30000, customer: 20, business: 52, total: 72 },
+          { min: 30001, max: 35000, customer: 21, business: 62, total: 83 },
+          { min: 35001, max: 40000, customer: 23, business: 76, total: 99 },
+          { min: 40001, max: 45000, customer: 23, business: 80, total: 103 },
+          { min: 45001, max: 50000, customer: 24, business: 84, total: 108 },
+          { min: 50001, max: 70000, customer: 24, business: 84, total: 108 },
+          { min: 70001, max: 250000, customer: 24, business: 84, total: 108 }
+        ],
+        businessBouquet: [
+          { min: 0, max: 49, charge: 0 },
+          { min: 50, max: 100, charge: 0 },
+          { min: 101, max: 500, charge: 5 },
+          { min: 501, max: 1000, charge: 10 },
+          { min: 1001, max: 1500, charge: 15 },
+          { min: 1501, max: 2500, charge: 20 },
+          { min: 2501, max: 3500, charge: 25 },
+          { min: 3501, max: 5000, charge: 34 },
+          { min: 5001, max: 7500, charge: 42 },
+          { min: 7501, max: 10000, charge: 48 },
+          { min: 10001, max: 15000, charge: 57 },
+          { min: 15001, max: 20000, charge: 62 },
+          { min: 20001, max: 25000, charge: 67 },
+          { min: 25001, max: 30000, charge: 72 },
+          { min: 30001, max: 35000, charge: 83 },
+          { min: 35001, max: 40000, charge: 99 },
+          { min: 40001, max: 45000, charge: 103 },
+          { min: 45001, max: 50000, charge: 108 },
+          { min: 50001, max: 70000, charge: 108 },
+          { min: 70001, max: 250000, charge: 108 }
+        ],
+        customerBouquet: [
+          { min: 0, max: 49, charge: 0 },
+          { min: 50, max: 100, charge: 0 },
+          { min: 101, max: 500, charge: 5 },
+          { min: 501, max: 1000, charge: 10 },
+          { min: 1001, max: 1500, charge: 15 },
+          { min: 1501, max: 2500, charge: 20 },
+          { min: 2501, max: 3500, charge: 25 },
+          { min: 3501, max: 5000, charge: 34 },
+          { min: 5001, max: 7500, charge: 42 },
+          { min: 7501, max: 10000, charge: 48 },
+          { min: 10001, max: 15000, charge: 57 },
+          { min: 15001, max: 20000, charge: 62 },
+          { min: 20001, max: 25000, charge: 67 },
+          { min: 25001, max: 30000, charge: 72 },
+          { min: 30001, max: 35000, charge: 83 },
+          { min: 35001, max: 40000, charge: 99 },
+          { min: 40001, max: 45000, charge: 103 },
+          { min: 45001, max: 50000, charge: 108 },
+          { min: 50001, max: 70000, charge: 108 },
+          { min: 70001, max: 250000, charge: 108 }
+        ]
+      };
 
-      // Function to calculate charges
-      function calculateCharge(amount) {
+      // Function to calculate charges based on tariff type
+      function calculateCharge(amount, tariffType) {
         if (!amount || amount < 1) return { charge: 0 };
         
-        const range = paybillCharges.find(range => amount >= range.min && amount <= range.max);
-        return range || { charge: 0 };
+        if (tariffType === 'mgao') {
+          const range = tariffCharges.mgao.find(range => amount >= range.min && amount <= range.max);
+          return range ? { ...range, charge: range.total } : { charge: 0, customer: 0, business: 0, total: 0 };
+        } else {
+          const tariff = tariffType === 'businessBouquet' ? 'businessBouquet' : 'customerBouquet';
+          const range = tariffCharges[tariff].find(range => amount >= range.min && amount <= range.max);
+          return range ? { charge: range.charge } : { charge: 0 };
+        }
       }
 
       // Format currency
@@ -226,24 +435,39 @@ function calculatePaybillCharge(amount) {
       // Update results
       function updateResults() {
         const amount = parseFloat(amountInput.value);
-        const feePayer = feePayerSelect.value;
+        const tariffType = tariffTypeSelect.value;
         
         if (isNaN(amount) || amount < 1) {
           resultDiv.style.display = 'none';
           return;
         }
         
-        const { charge } = calculateCharge(amount);
+        const result = calculateCharge(amount, tariffType);
         
-        // Update UI
-        chargeAmount.textContent = charge === 0 ? 'Free' : formatCurrency(charge);
-        
-        if (feePayer === 'customer') {
+        // Update UI based on tariff type
+        if (tariffType === 'mgao') {
+          // Show fee breakdown for Mgao tariff
+          feeBreakdown.classList.remove('hidden');
+          customerPortion.textContent = result.customer === 0 ? 'Free' : formatCurrency(result.customer);
+          businessPortion.textContent = result.business === 0 ? 'Free' : formatCurrency(result.business);
+          chargeAmount.textContent = result.total === 0 ? 'Free' : formatCurrency(result.total);
           totalLabel.textContent = 'Total Deducted:';
-          totalAmount.textContent = formatCurrency(amount + charge);
+          totalAmount.textContent = formatCurrency(amount + result.total);
+          feeInfoText.textContent = 'With Mgao Tariff, the fee is split between you and the business.';
+        } else if (tariffType === 'businessBouquet') {
+          // Business Bouquet - Customer pays all fees
+          feeBreakdown.classList.add('hidden');
+          chargeAmount.textContent = result.charge === 0 ? 'Free' : formatCurrency(result.charge);
+          totalLabel.textContent = 'Total Deducted:';
+          totalAmount.textContent = formatCurrency(amount + result.charge);
+          feeInfoText.textContent = 'With Business Bouquet, you pay all the transaction fees.';
         } else {
+          // Customer Bouquet - Business pays all fees
+          feeBreakdown.classList.add('hidden');
+          chargeAmount.textContent = result.charge === 0 ? 'Free' : formatCurrency(result.charge);
           totalLabel.textContent = 'Amount Received:';
-          totalAmount.textContent = formatCurrency(amount - charge);
+          totalAmount.textContent = formatCurrency(amount);
+          feeInfoText.textContent = 'With Customer Bouquet, the business pays all transaction fees.';
         }
         
         resultDiv.style.display = 'block';
@@ -254,7 +478,12 @@ function calculatePaybillCharge(amount) {
       amountInput.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') updateResults();
       });
-      feePayerSelect.addEventListener('change', updateResults);
+      tariffTypeSelect.addEventListener('change', updateResults);
+
+      // Initial calculation if there's a value in the input
+      if (amountInput.value) {
+        updateResults();
+      }
     });
   </script>
 </Layout>

@@ -3,55 +3,73 @@ import Layout from '../layouts/Layout.astro';
 import FAQSchema from '../components/FAQSchema.astro';
 
 // M-PESA Agent Withdrawal Fee Bands (KES)
-// Source: Safaricom official rates
+// Updated with 2025 rates
 const MPESA_AGENT_FEES = [
   { min: 50, max: 100, fee: 11 },
   { min: 101, max: 500, fee: 29 },
-  { min: 501, max: 1000, fee: 34 },
-  { min: 1001, max: 1500, fee: 41 },
-  { min: 1501, max: 2500, fee: 52 },
-  { min: 2501, max: 3500, fee: 69 },
-  { min: 3501, max: 5000, fee: 85 },
-  { min: 5001, max: 7500, fee: 113 },
-  { min: 7501, max: 10000, fee: 160 },
-  { min: 10001, max: 15000, fee: 182 },
-  { min: 15001, max: 20000, fee: 203 },
-  { min: 20001, max: 35000, fee: 278 },
-  { min: 35001, max: 50000, fee: 309 },
-  { min: 50001, max: 250000, fee: 335 },
+  { min: 501, max: 1000, fee: 29 },
+  { min: 1001, max: 1500, fee: 29 },
+  { min: 1501, max: 2500, fee: 29 },
+  { min: 2501, max: 3500, fee: 52 },
+  { min: 3501, max: 5000, fee: 69 },
+  { min: 5001, max: 7500, fee: 87 },
+  { min: 7501, max: 10000, fee: 115 },
+  { min: 10001, max: 15000, fee: 167 },
+  { min: 15001, max: 20000, fee: 185 },
+  { min: 20001, max: 35000, fee: 197 },
+  { min: 35001, max: 50000, fee: 278 },
+  { min: 50001, max: 250000, fee: 309 },
+];
+
+// M-PESA ATM Withdrawal Fee Bands (KES)
+// Updated with 2025 rates
+const MPESA_ATM_FEES = [
+  { min: 200, max: 2500, fee: 35 },
+  { min: 2501, max: 5000, fee: 69 },
+  { min: 5001, max: 10000, fee: 115 },
+  { min: 10001, max: 35000, fee: 203 },
 ];
 
 // SEO Metadata
-const pageTitle = 'M-PESA Withdrawal Fees Calculator | Kenya 2025';
-const pageDescription = 'Calculate exact M-PESA withdrawal charges in Kenya. See agent fees, bank charges, and ATM costs before you withdraw your money. Updated with 2025 rates.';
+const pageTitle = 'M-PESA Withdrawal Fees Calculator 2025: Agent & ATM Charges in Kenya';
+const pageDescription = 'Calculate M-PESA withdrawal fees for agents & ATMs in Kenya (2025). See exact charges for any amount from KES 50 to 350,000. Compare agent vs ATM costs instantly.';
 const canonicalUrl = '/withdrawal-fees';
+const pageUrl = 'https://convertksh.xyz' + canonicalUrl;
 
 // FAQ Schema Data
 const faqItems = [
   {
-    question: 'How much does M-PESA charge for withdrawals?',
-    answer: 'M-PESA agent withdrawal fees range from KES 11 for amounts between KES 50-100, up to KES 335 for amounts between KES 50,001-250,000. Our calculator shows the exact fee for your withdrawal amount.'
+    question: 'How much does M-PESA charge for withdrawals in 2025?',
+    answer: 'M-PESA agent withdrawal fees range from KES 11 for amounts between KES 50-100, up to KES 309 for amounts between KES 50,001-150,000. ATM withdrawals range from KES 35 to KES 203 depending on the amount.'
   },
   {
-    question: 'Are there any limits on M-PESA withdrawals?',
-    answer: 'Yes, the standard M-PESA withdrawal limit is KES 70,000 per transaction and KES 140,000 per day for fully verified accounts. Unverified accounts have lower limits.'
+    question: 'What are the current M-PESA withdrawal limits?',
+    answer: 'For agent withdrawals: KES 50-150,000 per transaction. For ATM withdrawals: KES 200-35,000 per transaction. Daily limits may apply based on your M-PESA account verification level.'
   },
   {
-    question: 'Which is cheaper: agent withdrawal or bank withdrawal?',
-    answer: 'Agent withdrawals are typically cheaper for smaller amounts, while bank transfers might be more cost-effective for larger amounts. Our calculator helps you compare the costs.'
+    question: 'Which is cheaper: M-PESA agent or ATM withdrawal?',
+    answer: 'For amounts under KES 2,500, agent withdrawals are generally cheaper. For example, withdrawing KES 2,000 costs KES 29 at an agent vs KES 35 at an ATM. Our calculator helps you find the most cost-effective option.'
   },
   {
-    question: 'Do these fees include VAT?',
-    answer: 'Yes, all M-PESA withdrawal fees are inclusive of VAT (16% as of 2025). The prices shown are the total amount you will be charged.'
+    question: 'How can I avoid M-PESA withdrawal fees?',
+    answer: 'You can\'t completely avoid fees, but you can minimize them by: 1) Withdrawing larger amounts less frequently, 2) Using M-PESA Paybill for bill payments, 3) Using bank transfers for large amounts, 4) Taking advantage of fee-free days if offered by Safaricom.'
   },
   {
-    question: 'How can I reduce my withdrawal fees?',
-    answer: 'You can reduce fees by withdrawing larger amounts less frequently, using bank transfers for big amounts, or using M-PESA Paybill numbers for certain services that accept it.'
+    question: 'What is the minimum amount I can withdraw from M-PESA?',
+    answer: 'The minimum withdrawal amount is KES 50 at agents and KES 200 at ATMs. Amounts below these minimums cannot be withdrawn through these channels.'
+  },
+  {
+    question: 'Are M-PESA withdrawal fees the same for all agents?',
+    answer: 'Yes, M-PESA agent withdrawal fees are standardized across all agents in Kenya. However, some third-party agents might charge additional service fees, which would be disclosed before the transaction.'
+  },
+  {
+    question: 'How do I check my M-PESA withdrawal charges?',
+    answer: 'You can check charges by: 1) Using our calculator, 2) Dialing *234#, 3) Checking the M-PESA menu on your phone under \'Lipa na M-PESA\' > \'Lipa Charges\', or 4) Visiting the official Safaricom website.'
   }
 ];
 
 // Generate structured data for withdrawal fees
-const feeBands = MPESA_AGENT_FEES.map(band => ({
+const agentFeeBands = MPESA_AGENT_FEES.map(band => ({
   "@type": "PriceSpecification",
   "price": band.fee,
   "priceCurrency": "KES",
@@ -63,19 +81,90 @@ const feeBands = MPESA_AGENT_FEES.map(band => ({
   }
 }));
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": ["FinancialProduct", "Service"],
-  "name": "MPESA Agent Withdrawal Fees",
-  "description": "Current MPESA agent withdrawal fees in Kenya",
-  "provider": {
-    "@type": "Organization",
-    "name": "Safaricom",
-    "url": "https://www.safaricom.co.ke/"
+const atmFeeBands = MPESA_ATM_FEES.map(band => ({
+  "@type": "PriceSpecification",
+  "price": band.fee,
+  "priceCurrency": "KES",
+  "eligibleQuantity": {
+    "@type": "QuantitativeValue",
+    "minValue": band.min,
+    "maxValue": band.max,
+    "unitCode": "KET"
+  }
+}));
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": pageTitle,
+    "description": pageDescription,
+    "url": pageUrl,
+    "mainEntity": [
+      {
+        "@type": "HowTo",
+        "name": "How to calculate M-PESA withdrawal fees",
+        "description": "Step-by-step guide to calculate M-PESA withdrawal fees for agents and ATMs",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "text": "Select withdrawal method (Agent or ATM)"
+          },
+          {
+            "@type": "HowToStep",
+            "text": "Enter the amount you want to withdraw"
+          },
+          {
+            "@type": "HowToStep",
+            "text": "View the calculated fee and total amount that will be deducted"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://convertksh.xyz/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "M-PESA Withdrawal Fees Calculator"
+          }
+        ]
+      }
+    ]
   },
-  "feesAndCommissionsSpecification": feeBands,
-  "url": `https://convertksh.xyz${canonicalUrl}`
-};
+  {
+    "@context": "https://schema.org",
+    "@type": ["FinancialProduct", "Service"],
+    "name": "M-PESA Agent Withdrawal Fees 2025",
+    "description": "Current M-PESA agent withdrawal fees in Kenya",
+    "provider": {
+      "@type": "Organization",
+      "name": "Safaricom",
+      "url": "https://www.safaricom.co.ke/"
+    },
+    "feesAndCommissionsSpecification": agentFeeBands,
+    "url": pageUrl
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": ["FinancialProduct", "Service"],
+    "name": "M-PESA ATM Withdrawal Fees 2025",
+    "description": "Current M-PESA ATM withdrawal fees in Kenya",
+    "provider": {
+      "@type": "Organization",
+      "name": "Safaricom",
+      "url": "https://www.safaricom.co.ke/"
+    },
+    "feesAndCommissionsSpecification": atmFeeBands,
+    "url": pageUrl
+  }
+];
 ---
 
 <Layout 
@@ -84,64 +173,159 @@ const structuredData = {
   canonicalUrl={canonicalUrl}
   structuredData={structuredData}
 >
-  <main class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="w-full max-w-md">
-      <a href="/" class="text-emerald-400 hover:text-emerald-300 mb-6 inline-block">&larr; Back to Converters</a>
-      <h1 class="text-4xl font-bold text-center mb-2 text-emerald-400">M-PESA Withdrawal Fees Calculator</h1>
-      <p class="text-center text-gray-400 mb-8">Calculate exact charges for withdrawing money from M-PESA agents in Kenya</p>
-
-      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <div class="mb-4">
+  <main class="bg-gray-900 text-white min-h-screen p-4">
+    <div class="max-w-4xl mx-auto">
+      <nav aria-label="Breadcrumb" class="mb-6">
+        <ol class="flex items-center space-x-2 text-sm text-gray-400">
+          <li><a href="/" class="hover:text-emerald-400 transition-colors">Home</a></li>
+          <li class="text-gray-500">/</li>
+          <li class="text-emerald-400">M-PESA Withdrawal Fees</li>
+        </ol>
+      </nav>
+      
+      <div class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-emerald-400">M-PESA Withdrawal Fees Calculator 2025</h1>
+        <p class="text-base md:text-lg text-gray-300">Calculate exact charges for withdrawing money from M-PESA agents and ATMs in Kenya</p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1">
+          <div class="bg-gray-800 p-6 rounded-lg lg:sticky lg:top-4">
+            <div class="space-y-4">
+        <div>
           <label for="withdrawal-method" class="block text-sm font-medium text-gray-300 mb-2">Withdrawal Method</label>
-          <select id="withdrawal-method" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg">
+          <select id="withdrawal-method" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-base md:text-lg">
             <option value="mpesa-agent">M-PESA Agent</option>
-            <option value="mpesa-atm" disabled>M-PESA ATM (coming soon)</option>
-            <option value="equity-bank" disabled>Equity Bank (coming soon)</option>
+            <option value="mpesa-atm">M-PESA ATM</option>
           </select>
         </div>
 
-        <div class="mb-4">
+        <div>
           <label for="withdrawal-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount to Withdraw (KES)</label>
-          <input type="number" id="withdrawal-amount" placeholder="e.g., 5000" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg">
+          <input type="number" id="withdrawal-amount" placeholder="e.g., 5000" class="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-base md:text-lg">
         </div>
 
-        <div class="text-center my-6 bg-gray-900 p-4 rounded-md">
-          <p class="text-gray-400">Estimated Fee</p>
-          <p id="estimated-fee" class="text-3xl font-bold text-emerald-400">0.00 KES</p>
+        <div class="text-center bg-gray-900 p-4 rounded-md mt-6">
+          <p class="text-gray-400 text-sm">Withdrawal Fee</p>
+          <p id="estimated-fee" class="text-2xl md:text-3xl font-bold text-emerald-400">0.00 KES</p>
           <hr class="border-gray-700 my-2">
-          <p class="text-gray-400">You will receive</p>
-          <p id="net-amount" class="text-3xl font-bold text-white">0.00 KES</p>
+          <p class="text-gray-400 text-sm">Total Amount Deducted</p>
+          <p id="total-amount" class="text-2xl md:text-3xl font-bold text-white">0.00 KES</p>
+        </div>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-2">
+          <div class="bg-gray-800 p-6 rounded-lg mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-emerald-400">M-PESA Agent Withdrawal Charges</h2>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-700">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount Range (KES)</th>
+                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Fee (KES)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700">
+                  {MPESA_AGENT_FEES.map((range, index) => (
+                    <tr key={`agent-${index}`} class={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                        {range.min.toLocaleString()} - {range.max.toLocaleString()}
+                      </td>
+                      <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-white">
+                        {range.fee === 0 ? 'FREE' : range.fee.toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="bg-gray-800 p-6 rounded-lg mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-emerald-400">M-PESA ATM Withdrawal Charges</h2>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-700">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount Range (KES)</th>
+                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Fee (KES)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700">
+                  {MPESA_ATM_FEES.map((range, index) => (
+                    <tr key={`atm-${index}`} class={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                      <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-300">
+                        {range.min.toLocaleString()} - {range.max.toLocaleString()}
+                      </td>
+                      <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium text-white">
+                        {range.fee.toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-2xl font-bold mb-4 text-emerald-400">Tips to Reduce M-PESA Withdrawal Fees</h2>
+            <div class="prose prose-invert max-w-none">
+              <ul class="list-disc pl-5 space-y-3">
+                <li><strong>Withdraw larger amounts less frequently</strong> - The fee per shilling decreases with larger withdrawals.</li>
+                <li><strong>Use M-PESA Paybill for payments</strong> - Many businesses accept direct M-PESA payments which often have lower fees than cash withdrawals.</li>
+                <li><strong>Consider bank transfers for large amounts</strong> - For amounts over KES 35,000, a bank transfer might be more cost-effective than multiple withdrawals.</li>
+                <li><strong>Use M-PESA for purchases</strong> - Many merchants now accept M-PESA payments directly, eliminating the need to withdraw cash.</li>
+                <li><strong>Check for fee promotions</strong> - Safaricom occasionally offers reduced or zero-fee withdrawal promotions.</li>
+              </ul>
+              
+              <h3 class="text-xl font-semibold mt-6 mb-3">Need to withdraw large amounts frequently?</h3>
+              <p class="mb-4">If you regularly need to withdraw large sums, consider opening a bank account with a bank that offers free or low-cost transfers from M-PESA to your account, then use your debit card for purchases or ATM withdrawals.</p>
+              
+              <div class="bg-gray-900 p-4 rounded-lg border-l-4 border-emerald-500 mt-6">
+                <h4 class="font-semibold text-emerald-300 mb-2">💡 Did You Know?</h4>
+                <p class="text-gray-300">M-PESA withdrawal fees are regulated by the Central Bank of Kenya. The current fee structure was last updated in January 2025 and is valid until further notice.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    // Define the fee structure for M-PESA agent withdrawals
+    // Define the fee structures for different withdrawal methods
     const MPESA_AGENT_FEES = [
       { min: 50, max: 100, fee: 11 },
       { min: 101, max: 500, fee: 29 },
-      { min: 501, max: 1000, fee: 34 },
-      { min: 1001, max: 1500, fee: 41 },
-      { min: 1501, max: 2500, fee: 52 },
-      { min: 2501, max: 3500, fee: 69 },
-      { min: 3501, max: 5000, fee: 85 },
-      { min: 5001, max: 7500, fee: 113 },
-      { min: 7501, max: 10000, fee: 160 },
-      { min: 10001, max: 15000, fee: 182 },
-      { min: 15001, max: 20000, fee: 203 },
-      { min: 20001, max: 35000, fee: 278 },
-      { min: 35001, max: 50000, fee: 309 },
-      { min: 50001, max: 250000, fee: 335 },
+      { min: 501, max: 1000, fee: 29 },
+      { min: 1001, max: 1500, fee: 29 },
+      { min: 1501, max: 2500, fee: 29 },
+      { min: 2501, max: 3500, fee: 52 },
+      { min: 3501, max: 5000, fee: 69 },
+      { min: 5001, max: 7500, fee: 87 },
+      { min: 7501, max: 10000, fee: 115 },
+      { min: 10001, max: 15000, fee: 167 },
+      { min: 15001, max: 20000, fee: 185 },
+      { min: 20001, max: 35000, fee: 197 },
+      { min: 35001, max: 50000, fee: 278 },
+      { min: 50001, max: 250000, fee: 309 },
+    ];
+
+    const MPESA_ATM_FEES = [
+      { min: 200, max: 2500, fee: 35 },
+      { min: 2501, max: 5000, fee: 69 },
+      { min: 5001, max: 10000, fee: 115 },
+      { min: 10001, max: 35000, fee: 203 },
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
       const amountInput = document.getElementById('withdrawal-amount');
       const methodSelect = document.getElementById('withdrawal-method');
       const feeDisplay = document.getElementById('estimated-fee');
-      const netDisplay = document.getElementById('net-amount');
+      const totalDisplay = document.getElementById('total-amount');
 
-      if (!amountInput || !methodSelect || !feeDisplay || !netDisplay) {
+      if (!amountInput || !methodSelect || !feeDisplay || !totalDisplay) {
         console.error('Withdrawal Fee script: One or more required DOM elements are missing.');
         return;
       }
@@ -161,31 +345,62 @@ const structuredData = {
         return -1; // Return -1 if no matching band found
       }
 
+      function calculateAtmFee(amount) {
+        if (isNaN(amount) || amount < 200) return 0;
+        if (amount > 35000) return -1; // Over limit
+
+        const numAmount = Number(amount);
+        
+        for (const band of MPESA_ATM_FEES) {
+          if (numAmount >= band.min && numAmount <= band.max) {
+            return band.fee;
+          }
+        }
+        return -1; // No matching band found
+      }
+
       function updateCalculation() {
         const amount = amountInput.value.trim() === '' ? 0 : parseFloat(amountInput.value);
         const method = methodSelect.value;
 
         if (isNaN(amount) || amount <= 0) {
           feeDisplay.textContent = '0.00 KES';
-          netDisplay.textContent = '0.00 KES';
+          totalDisplay.textContent = '0.00 KES';
           return;
         }
 
+
         let fee = 0;
+        let errorMessage = '';
+        
         if (method === 'mpesa-agent') {
-          fee = calculateMpesaAgentFee(amount);
-          
-          if (fee === -1) {
-            feeDisplay.textContent = 'Over Limit';
-            netDisplay.textContent = 'Max: 250,000 KES';
-            return;
+          if (amount < 50) {
+            errorMessage = 'Min: 50 KES';
+          } else if (amount > 250000) {
+            errorMessage = 'Max: 250,000 KES';
+          } else {
+            fee = calculateMpesaAgentFee(amount);
+          }
+        } else if (method === 'mpesa-atm') {
+          if (amount < 200) {
+            errorMessage = 'Min: 200 KES';
+          } else if (amount > 35000) {
+            errorMessage = 'Max: 35,000 KES';
+          } else {
+            fee = calculateAtmFee(amount);
           }
         }
 
-        const netAmount = Math.max(0, amount - fee);
+        if (errorMessage) {
+          feeDisplay.textContent = 'N/A';
+          totalDisplay.textContent = errorMessage;
+          return;
+        }
 
-        feeDisplay.textContent = fee === 0 ? '0.00 KES' : `${fee.toFixed(2)} KES`;
-        netDisplay.textContent = `${netAmount.toFixed(2)} KES`;
+        const totalAmount = amount + fee;
+
+        feeDisplay.textContent = fee === 0 ? 'FREE' : `${fee.toLocaleString('en-KE')} KES`;
+        totalDisplay.textContent = `${totalAmount.toLocaleString('en-KE')} KES`;
       }
 
       amountInput.addEventListener('input', updateCalculation);
