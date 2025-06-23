@@ -2,18 +2,26 @@
 import Layout from '../layouts/Layout.astro';
 import FAQSchema from '../components/FAQSchema.astro';
 
-const pageTitle = 'USD to KES Converter | Live Exchange Rate (US Dollar to Kenya Shillings)';
-const pageDescription = 'Convert USD to KES (US Dollar to Kenya Shillings) with our live exchange rate calculator. Get accurate USD/KES conversion rates updated in real-time.';
+const pageTitle = 'USD to KSH (US Dollar to Kenya Shillings) | Live Exchange Rate & Converter';
+const pageDescription = 'Convert USD to KSH (KES) with live exchange rates. Check how much your US Dollars are worth in Kenyan Shillings today. Quick, accurate currency conversion for USD to KES, USD in KSH, and USD KSH rates.';
 const canonicalUrl = '/usd-to-kes';
 
 const faqItems = [
   {
-    question: 'What is the current USD to KES exchange rate?',
-    answer: 'Our USD to KES (US Dollar to Kenya Shillings) rates are updated in real-time using reliable financial data sources. The exchange rate you see is the current market rate, though your bank or money transfer service may apply a slightly different rate.'
+    question: 'What is 1 USD in KSH?',
+    answer: '1 US Dollar (USD) equals approximately 129.50 Kenyan Shillings (KSH) as of the latest exchange rate. Use our converter above for real-time rates.'
   },
   {
-    question: 'How do I convert USD to KES?',
-    answer: 'To convert USD to KES (Kenya Shillings), simply enter the amount in US Dollars in the converter above. The tool will automatically show you the equivalent amount in KES using the latest exchange rate.'
+    question: 'How much is 100 USD in KSH?',
+    answer: '100 US Dollars (USD) equals approximately 12,950 Kenyan Shillings (KSH). The exact amount may vary based on the current exchange rate.'
+  },
+  {
+    question: 'Is KSH and KES the same?',
+    answer: 'Yes, KSH and KES both refer to the Kenyan Shilling. "KES" is the ISO currency code, while "KSH" is a common abbreviation.'
+  },
+  {
+    question: 'What is the difference between USD to KES and USD to KSH?',
+    answer: 'There is no difference - KES and KSH both represent the Kenyan Shilling. KES is the ISO code, while KSH is a common abbreviation. Both terms refer to the same currency.'
   }
 ];
 ---
@@ -37,7 +45,7 @@ const faqItems = [
       </div>
 
       <div class="bg-gray-800 rounded-lg p-6 mb-8">
-        <div class="flex flex-col md:flex-row gap-6">
+        <div id="converter-section" class="flex flex-col md:flex-row gap-6">
           <div class="flex-1">
             <label for="usd-amount" class="block text-sm font-medium text-gray-300 mb-2">Amount in <span id="from-currency">USD</span></label>
             <div class="relative">
@@ -53,16 +61,7 @@ const faqItems = [
                 min="0"
               />
             </div>
-            <div id="preset-amounts" class="flex flex-wrap gap-2 mt-3">
-              {[10, 50, 100, 500, 1000].map(amount => (
-                <button 
-                  class="bg-gray-700 hover:bg-gray-600 text-sm px-3 py-1 rounded transition-colors"
-                  data-amount={amount}
-                >
-                  ${amount}
-                </button>
-              ))}
-            </div>
+              <!-- Preset amounts removed as per user request -->
           </div>
           
           <div class="flex items-center justify-center">
@@ -106,8 +105,23 @@ const faqItems = [
         </div>
       </div>
 
+      <!-- Common Conversions -->
+      <div class="bg-gray-800 p-6 rounded-lg mb-8">
+        <h3 class="text-lg font-semibold mb-4">Common USD to KSH Conversions</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-sm">
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="1">1 USD to KSH</a>
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="5">5 USD to KSH</a>
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="10">10 USD to KSH</a>
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="50">50 USD to KSH</a>
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="100">100 USD to KSH</a>
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="250">250 USD to KSH</a>
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="500">500 USD to KSH</a>
+          <a href="#" class="usd-amount-btn block p-3 bg-gray-700 rounded-lg hover:bg-gray-600 text-center transition-colors" data-amount="1000">1000 USD to KSH</a>
+        </div>
+      </div>
+
       <div class="prose prose-invert max-w-none">
-        <h2 class="text-2xl font-bold mb-6 text-emerald-400">USD to KES Exchange Rate Today</h2>
+        <h2 class="text-2xl font-bold mb-6 text-emerald-400">USD to KSH (KES) Exchange Rate Today</h2>
         
         <div class="bg-gray-800 p-6 rounded-lg mb-8">
           <h3 class="text-xl font-semibold mb-4">Current Exchange Rate</h3>
@@ -128,16 +142,7 @@ const faqItems = [
               <li>Click the swap button to convert from KES to USD instead</li>
             </ol>
           </div>
-          <div class="bg-gray-800 p-6 rounded-lg">
-            <h4 class="font-semibold mb-3">Quick Conversions</h4>
-            <ul class="space-y-2 text-gray-300">
-              <li class="flex justify-between"><span>1 USD</span> <span id="rate-1">0.00 KES</span></li>
-              <li class="flex justify-between"><span>5 USD</span> <span id="rate-5">0.00 KES</span></li>
-              <li class="flex justify-between"><span>10 USD</span> <span id="rate-10">0.00 KES</span></li>
-              <li class="flex justify-between"><span>50 USD</span> <span id="rate-50">0.00 KES</span></li>
-              <li class="flex justify-between"><span>100 USD</span> <span id="rate-100">0.00 KES</span></li>
-            </ul>
-          </div>
+          <!-- Quick Conversions removed as per user request -->
         </div>
 
         <h3 class="text-xl font-semibold mb-4">Understanding USD to KES Exchange Rate</h3>
@@ -215,6 +220,19 @@ const faqItems = [
   </main>
 
   <script>
+    // Handle common conversion buttons
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('usd-amount-btn')) {
+        e.preventDefault();
+        const amount = e.target.getAttribute('data-amount');
+        document.getElementById('usd-amount').value = amount;
+        // Trigger input event to update conversion
+        document.getElementById('usd-amount').dispatchEvent(new Event('input'));
+        // Smooth scroll to converter
+        document.getElementById('converter-section').scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
       // DOM Elements
       const usdAmountInput = document.getElementById('usd-amount');
