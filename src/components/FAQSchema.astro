@@ -4,7 +4,7 @@ interface FAQItem {
   answer: string;
 }
 
-const { faqItems, pageUrl = 'https://convertksh.xyz' } = Astro.props;
+const { faqItems } = Astro.props;
 
 // Create the FAQPage schema
 const faqPage = {
@@ -20,6 +20,15 @@ const faqPage = {
   }))
 };
 
+// Create a safe string representation of the schema
+const schemaString = JSON.stringify(faqPage, (key, value) => {
+  // Handle potential circular references
+  if (typeof value === 'string') {
+    return value.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  return value;
+}, 2);
+
 // Format FAQ items for display
 const formattedFaqItems = faqItems.map(item => ({
   question: item.question.trim(),
@@ -28,9 +37,7 @@ const formattedFaqItems = faqItems.map(item => ({
 ---
 
 <!-- FAQ Schema for Rich Results (JSON-LD only) -->
-<script type="application/ld+json">
-  {JSON.stringify(faqPage, null, 2)}
-</script>
+<script type="application/ld+json" set:html={schemaString} />
 
 <!-- FAQ Content (visible to users) -->
 <div class="space-y-6 mt-8">
