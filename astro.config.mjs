@@ -11,11 +11,12 @@ export default defineConfig({
     sitemap({
       filter: (page) => !page.includes('404') && !page.includes('api'),
       changefreq: 'weekly',
-      priority: 0.7,
+      priority: 0.8,
       customPages: [
         'https://convertksh.xyz/withdrawal-fees',
         'https://convertksh.xyz/send-money-charges',
-        'https://convertksh.xyz/paybill-charges'
+        'https://convertksh.xyz/paybill-charges',
+        'https://convertksh.xyz/inflation-calculator'
       ]
     })
   ],
