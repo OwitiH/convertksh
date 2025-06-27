@@ -1,9 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Generate structured data for tools
+const generateStructuredData = (tools) => {
+  const toolList = tools.map(tool => ({
+    "@type": "SoftwareApplication",
+    "name": tool.title,
+    "description": tool.description,
+    "url": `https://convertksh.xyz${tool.url}`,
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": toolList.map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": tool
+    }))
+  };
+};
+
 // SEO Metadata
-const pageTitle = 'Kenyan Currency Tools | KES, USD, Crypto & MPESA Converters';
-const pageDescription = 'Your complete hub for currency conversion in Kenya. Convert USD to KES, PayPal to MPESA, crypto to KES, and more with real-time exchange rates and calculators.';
+const pageTitle = 'ConvertKSH | Currency Tools & Calculators for Kenya';
+const pageDescription = 'ConvertKSH offers instant currency conversion tools for Kenya. Get live USD to KES rates, calculate PayPal to MPESA fees, and convert crypto to KES. Trusted by Kenyans for accurate, real-time currency calculations.';
 const canonicalUrl = '/';
 
 // Tools Data
@@ -101,7 +128,58 @@ const formatDate = (date) => {
   title={pageTitle}
   description={pageDescription}
   canonicalUrl={canonicalUrl}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Kenyan Currency Tools",
+    "url": "https://convertksh.xyz",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://convertksh.xyz/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }}
 >
+  {/* Structured data for tools */}
+  <script type="application/ld+json" set:html={JSON.stringify(generateStructuredData(tools))} />
+  
+  {/* Preload critical resources */}
+  <link rel="preload" href="/images/og-image.jpg" as="image" />
+  
+  {/* Lazy loading for non-critical resources */}
+  <script>
+    // Load non-critical CSS
+    const loadCSS = (href) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    };
+    
+    // Load non-critical JS
+    const loadJS = (src, callback) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      if (callback) script.onload = callback;
+      document.body.appendChild(script);
+    };
+    
+    // Load non-critical resources when the page is idle
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        // Load any additional fonts or non-critical CSS
+        loadCSS('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      });
+    } else {
+      // Fallback for browsers that don't support requestIdleCallback
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          loadCSS('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        }, 2000);
+      });
+    }
+  </script>
   <main class="bg-gray-900 text-white min-h-screen">
     <!-- Hero Section -->
     <div class="bg-gradient-to-br from-emerald-900 to-gray-900 py-20 px-4">
@@ -191,7 +269,7 @@ const formatDate = (date) => {
                 href={tool.url}
                 class="bg-gray-800 rounded-xl p-6 hover:bg-gray-750 transition-colors group"
               >
-                <div class="text-3xl mb-4">{tool.icon}</div>
+                <div class="text-3xl mb-4" aria-hidden="true">{tool.icon}</div>
                 <h3 class="text-xl font-semibold mb-2 group-hover:text-emerald-400 transition-colors">
                   {tool.title}
                 </h3>
@@ -226,7 +304,7 @@ const formatDate = (date) => {
                 >
                   <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                      <span class="text-xl mr-4">{tool.icon}</span>
+                      <span class="text-xl mr-4" aria-hidden="true">{tool.icon}</span>
                       <div>
                         <h3 class="font-medium group-hover:text-emerald-400 transition-colors">
                           {tool.title}
@@ -245,7 +323,162 @@ const formatDate = (date) => {
         </div>
       </section>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="bg-gray-800 py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+        
+        <div class="space-y-6">
+          <!-- FAQ Item 1 -->
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="bg-gray-900 rounded-xl p-6">
+            <h3 itemprop="name" class="text-lg font-semibold mb-3 cursor-pointer flex justify-between items-center">
+              How often are exchange rates updated?
+              <span class="text-emerald-400 text-2xl">+</span>
+            </h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="hidden mt-2 text-gray-300">
+              <div itemprop="text">
+                Our currency exchange rates are updated in real-time to ensure you always get the most accurate conversions. We source our data from reliable financial institutions and update our rates every 60 seconds.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 2 -->
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="bg-gray-900 rounded-xl p-6">
+            <h3 itemprop="name" class="text-lg font-semibold mb-3 cursor-pointer flex justify-between items-center">
+              Is ConvertKSH free to use?
+              <span class="text-emerald-400 text-2xl">+</span>
+            </h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="hidden mt-2 text-gray-300">
+              <div itemprop="text">
+                Yes! All our currency conversion tools are completely free to use with no hidden charges. You can convert currencies, calculate fees, and check exchange rates without any cost.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 3 -->
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="bg-gray-900 rounded-xl p-6">
+            <h3 itemprop="name" class="text-lg font-semibold mb-3 cursor-pointer flex justify-between items-center">
+              How accurate are the currency conversion rates?
+              <span class="text-emerald-400 text-2xl">+</span>
+            </h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="hidden mt-2 text-gray-300">
+              <div itemprop="text">
+                We source our rates from multiple trusted financial institutions to provide the most accurate mid-market rates. However, please note that actual exchange rates may vary slightly depending on your bank or payment provider's fees.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="bg-gray-900 rounded-xl p-6">
+            <h3 itemprop="name" class="text-lg font-semibold mb-3 cursor-pointer flex justify-between items-center">
+              Can I convert cryptocurrencies to M-PESA?
+              <span class="text-emerald-400 text-2xl">+</span>
+            </h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="hidden mt-2 text-gray-300">
+              <div itemprop="text">
+                While we provide conversion rates for cryptocurrencies to KES, the actual conversion to M-PESA would need to be done through a licensed cryptocurrency exchange or peer-to-peer platform that supports M-PESA withdrawals.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 5 -->
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="bg-gray-900 rounded-xl p-6">
+            <h3 itemprop="name" class="text-lg font-semibold mb-3 cursor-pointer flex justify-between items-center">
+              Why are PayPal to M-PESA fees so high?
+              <span class="text-emerald-400 text-2xl">+</span>
+            </h3>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" class="hidden mt-2 text-gray-300">
+              <div itemprop="text">
+                The fees for converting PayPal to M-PESA include charges from multiple parties: PayPal's withdrawal fees, currency conversion fees, and the mobile money provider's fees. Our calculator helps you understand the total cost before making a transfer.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Schema Markup -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How often are exchange rates updated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Our currency exchange rates are updated in real-time to ensure you always get the most accurate conversions. We source our data from reliable financial institutions and update our rates every 60 seconds."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is ConvertKSH free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! All our currency conversion tools are completely free to use with no hidden charges. You can convert currencies, calculate fees, and check exchange rates without any cost."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How accurate are the currency conversion rates?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We source our rates from multiple trusted financial institutions to provide the most accurate mid-market rates. However, please note that actual exchange rates may vary slightly depending on your bank or payment provider's fees."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I convert cryptocurrencies to M-PESA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "While we provide conversion rates for cryptocurrencies to KES, the actual conversion to M-PESA would need to be done through a licensed cryptocurrency exchange or peer-to-peer platform that supports M-PESA withdrawals."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are PayPal to M-PESA fees so high?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The fees for converting PayPal to M-PESA include charges from multiple parties: PayPal's withdrawal fees, currency conversion fees, and the mobile money provider's fees. Our calculator helps you understand the total cost before making a transfer."
+            }
+          }
+        ]
+      }
+    </script>
   </main>
+  
+  <!-- FAQ Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const faqItems = document.querySelectorAll('[itemprop="mainEntity"]');
+      
+      faqItems.forEach(item => {
+        const question = item.querySelector('h3');
+        const answer = item.querySelector('[itemprop="acceptedAnswer"]');
+        const icon = question.querySelector('span');
+        
+        question.addEventListener('click', () => {
+          const isOpen = !answer.classList.contains('hidden');
+          
+          // Toggle the current item
+          answer.classList.toggle('hidden');
+          icon.textContent = isOpen ? '+' : '−';
+          
+          // Close other open items
+          if (!isOpen) {
+            faqItems.forEach(otherItem => {
+              if (otherItem !== item) {
+                otherItem.querySelector('[itemprop="acceptedAnswer"]').classList.add('hidden');
+                otherItem.querySelector('h3 span').textContent = '+';
+              }
+            });
+          }
+        });
+      });
+    });
+  </script>
 
   <script>
     // Live rates update functionality

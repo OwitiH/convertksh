@@ -99,15 +99,6 @@ const pageStructuredData = structuredData || defaultStructuredData;
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KPS5WNEY4T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-KPS5WNEY4T');
-    </script>
-    
     <!-- Navigation Menu -->
     <div class="relative">
       <!-- Mobile menu button -->
@@ -153,14 +144,18 @@ const pageStructuredData = structuredData || defaultStructuredData;
     <!-- Performance optimizations -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KPS5WNEY4T"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-KPS5WNEY4T');
+      gtag('config', 'G-KPS5WNEY4T', {
+        'anonymize_ip': true,
+        'send_page_view': true
+      });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KPS5WNEY4T"></script>
   </head>
   <body class="bg-gray-900 flex flex-col min-h-screen">
     <div class="flex-grow">

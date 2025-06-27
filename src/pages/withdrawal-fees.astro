@@ -31,40 +31,44 @@ const MPESA_ATM_FEES = [
 ];
 
 // SEO Metadata
-const pageTitle = 'M-PESA Withdrawal Fees Calculator 2025: Agent & ATM Charges in Kenya';
-const pageDescription = 'Calculate M-PESA withdrawal fees for agents & ATMs in Kenya (2025). See exact charges for any amount from KES 50 to 350,000. Compare agent vs ATM costs instantly.';
-const canonicalUrl = '/withdrawal-fees';
+const pageTitle = 'M-PESA Transaction Cost 2025 | Withdrawal & Transfer Fees in Kenya | ConvertKSH';
+const pageDescription = 'Check latest M-PESA transaction costs in Kenya (2025). Calculate exact fees for withdrawals, transfers & payments. Compare agent vs ATM charges and save money today.';
+const canonicalUrl = '/mpesa-withdrawal-charges';
 const pageUrl = 'https://convertksh.xyz' + canonicalUrl;
 
-// FAQ Schema Data
+// FAQ Schema Data with targeted keywords
 const faqItems = [
   {
-    question: 'How much does M-PESA charge for withdrawals in 2025?',
-    answer: 'M-PESA agent withdrawal fees range from KES 11 for amounts between KES 50-100, up to KES 309 for amounts between KES 50,001-150,000. ATM withdrawals range from KES 35 to KES 203 depending on the amount.'
+    question: 'What are the current M-PESA withdrawal charges in Kenya?',
+    answer: 'M-PESA withdrawal charges in Kenya range from KES 11 for small amounts (KES 50-100) up to KES 309 for larger withdrawals (KES 50,001-150,000) at agents. ATM withdrawal fees range from KES 35 to KES 203. These mpesa transaction charges are updated for 2025.'
   },
   {
-    question: 'What are the current M-PESA withdrawal limits?',
-    answer: 'For agent withdrawals: KES 50-150,000 per transaction. For ATM withdrawals: KES 200-35,000 per transaction. Daily limits may apply based on your M-PESA account verification level.'
+    question: 'How do M-PESA withdrawal fees compare to other transaction charges?',
+    answer: 'M-PESA withdrawal charges are typically higher than sending money to other M-PESA users but lower than bank withdrawal fees. For example, sending money to another M-PESA user costs KES 10-108, while withdrawal charges at agents range from KES 11-309.'
   },
   {
-    question: 'Which is cheaper: M-PESA agent or ATM withdrawal?',
-    answer: 'For amounts under KES 2,500, agent withdrawals are generally cheaper. For example, withdrawing KES 2,000 costs KES 29 at an agent vs KES 35 at an ATM. Our calculator helps you find the most cost-effective option.'
+    question: 'What are the charges for M-PESA withdrawal at agents vs ATMs?',
+    answer: 'Agent withdrawals: KES 11-309 (KES 50-150,000 range). ATM withdrawals: KES 35-203 (KES 200-35,000 range). For amounts under KES 2,500, agents are usually cheaper. Our calculator helps you compare these mpesa charges.'
   },
   {
-    question: 'How can I avoid M-PESA withdrawal fees?',
-    answer: 'You can\'t completely avoid fees, but you can minimize them by: 1) Withdrawing larger amounts less frequently, 2) Using M-PESA Paybill for bill payments, 3) Using bank transfers for large amounts, 4) Taking advantage of fee-free days if offered by Safaricom.'
+    question: 'How can I reduce my M-PESA withdrawal fees?',
+    answer: 'To minimize mpesa withdrawal charges: 1) Withdraw larger amounts less frequently, 2) Use M-PESA Paybill instead of cash withdrawals when possible, 3) Choose agents over ATMs for amounts under KES 2,500, 4) Look for fee promotions from Safaricom.'
   },
   {
-    question: 'What is the minimum amount I can withdraw from M-PESA?',
-    answer: 'The minimum withdrawal amount is KES 50 at agents and KES 200 at ATMs. Amounts below these minimums cannot be withdrawn through these channels.'
+    question: 'What is the minimum withdrawal amount for M-PESA?',
+    answer: 'The minimum withdrawal amount is KES 50 at agents and KES 200 at ATMs. These limits help keep mpesa transaction charges reasonable for small transactions.'
   },
   {
-    question: 'Are M-PESA withdrawal fees the same for all agents?',
-    answer: 'Yes, M-PESA agent withdrawal fees are standardized across all agents in Kenya. However, some third-party agents might charge additional service fees, which would be disclosed before the transaction.'
+    question: 'Are there any hidden charges for M-PESA withdrawals?',
+    answer: 'Standard M-PESA withdrawal charges are clearly defined, but be aware that: 1) Some agents may charge extra service fees, 2) Failed transactions may still incur charges, 3) ATM operators might charge additional fees on top of M-PESA withdrawal charges.'
   },
   {
-    question: 'How do I check my M-PESA withdrawal charges?',
-    answer: 'You can check charges by: 1) Using our calculator, 2) Dialing *234#, 3) Checking the M-PESA menu on your phone under \'Lipa na M-PESA\' > \'Lipa Charges\', or 4) Visiting the official Safaricom website.'
+    question: 'How often do M-PESA withdrawal charges change?',
+    answer: 'Safaricom typically updates M-PESA charges once a year. The current withdrawal fees are effective from January 2025. We update our calculator immediately when new charges are announced.'
+  },
+  {
+    question: 'What is the most cost-effective way to withdraw large amounts from M-PESA?',
+    answer: 'For large M-PESA withdrawals: 1) Use agents for amounts up to KES 150,000 (lower fees than ATMs), 2) Consider bank transfers for very large amounts, 3) Check if your bank offers lower charges for M-PESA to bank transfers compared to direct withdrawals.'
   }
 ];
 
@@ -173,24 +177,34 @@ const structuredData = [
   canonicalUrl={canonicalUrl}
   structuredData={structuredData}
 >
-  <main class="bg-gray-900 text-white min-h-screen p-4">
-    <div class="max-w-4xl mx-auto">
+  <main class="bg-gray-900 text-white min-h-screen p-4 md:p-6 lg:p-8">
+    <div class="max-w-6xl mx-auto">
       <nav aria-label="Breadcrumb" class="mb-6">
         <ol class="flex items-center space-x-2 text-sm text-gray-400">
           <li><a href="/" class="hover:text-emerald-400 transition-colors">Home</a></li>
           <li class="text-gray-500">/</li>
-          <li class="text-emerald-400">M-PESA Withdrawal Fees</li>
+          <li class="text-emerald-400">M-PESA Withdrawal Charges</li>
         </ol>
       </nav>
       
-      <div class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-emerald-400">M-PESA Withdrawal Fees Calculator 2025</h1>
-        <p class="text-base md:text-lg text-gray-300">Calculate exact charges for withdrawing money from M-PESA agents and ATMs in Kenya</p>
-      </div>
+      <header class="mb-10 lg:mb-12">
+        <div class="max-w-4xl mx-auto text-center lg:text-left">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-emerald-400 leading-tight">M-PESA Transaction Cost 2025</h1>
+          <p class="text-base md:text-lg lg:text-xl text-gray-300 mb-6 max-w-3xl mx-auto lg:mx-0">
+            Check current M-PESA transaction costs for withdrawals, transfers, and payments in Kenya. Compare agent vs ATM fees and discover the most affordable way to manage your mobile money.
+          </p>
+          
+          <div class="bg-gradient-to-r from-emerald-900/30 to-emerald-800/20 border border-emerald-800 rounded-xl p-4 md:p-5 max-w-2xl mx-auto lg:mx-0">
+            <p class="text-sm md:text-base text-emerald-200">
+              <span class="font-semibold">Latest Update (June 2025):</span> Updated with current M-PESA withdrawal charges and fees for 2025.
+            </p>
+          </div>
+        </div>
+      </header>
       
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-1">
-          <div class="bg-gray-800 p-6 rounded-lg lg:sticky lg:top-4">
+      <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        <div class="xl:col-span-1">
+          <div class="bg-gray-800 p-6 rounded-xl lg:sticky lg:top-6 shadow-lg border border-gray-700">
             <div class="space-y-4">
         <div>
           <label for="withdrawal-method" class="block text-sm font-medium text-gray-300 mb-2">Withdrawal Method</label>
@@ -215,9 +229,20 @@ const structuredData = [
             </div>
           </div>
         </div>
-        <div class="lg:col-span-2">
-          <div class="bg-gray-800 p-6 rounded-lg mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-emerald-400">M-PESA Agent Withdrawal Charges</h2>
+        <div class="xl:col-span-3">
+        <div class="grid gap-8">
+          <section class="bg-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-gray-700" aria-labelledby="agent-charges">
+            <h2 id="agent-charges" class="text-2xl font-bold mb-4 text-emerald-400">M-PESA Agent Transaction Costs 2025</h2>
+            <p class="text-gray-300 mb-4">The table below shows the current M-PESA transaction costs for cash withdrawals at agents across Kenya. These standard fees apply to all Safaricom M-PESA agents, with costs ranging from KES 11 to KES 309 based on the transaction amount.</p>
+            <div class="bg-gray-700 p-4 rounded-lg mb-6">
+              <h3 class="font-semibold text-emerald-300 mb-2">Key Points:</h3>
+              <ul class="list-disc pl-5 space-y-1 text-gray-300 text-sm">
+                <li>Minimum withdrawal: KES 50</li>
+                <li>Maximum withdrawal: KES 150,000 per transaction</li>
+                <li>No charges for amounts below KES 50</li>
+                <li>Standardized fees across all M-PESA agents</li>
+              </ul>
+            </div>
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-gray-700">
                 <thead>
@@ -240,10 +265,20 @@ const structuredData = [
                 </tbody>
               </table>
             </div>
-          </div>
+          </section>
           
-          <div class="bg-gray-800 p-6 rounded-lg mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-emerald-400">M-PESA ATM Withdrawal Charges</h2>
+          <section class="bg-gray-800 p-6 md:p-8 rounded-xl shadow-lg border border-gray-700" aria-labelledby="atm-charges">
+            <h2 id="atm-charges" class="text-2xl font-bold mb-4 text-emerald-400">M-PESA ATM Transaction Costs 2025</h2>
+            <p class="text-gray-300 mb-4">The following table outlines M-PESA transaction costs for ATM withdrawals in Kenya. These fees are charged by Safaricom and are separate from any additional charges that may be applied by your bank. While ATM transactions have a higher minimum amount, they offer 24/7 convenience.</p>
+            <div class="bg-gray-700 p-4 rounded-lg mb-6">
+              <h3 class="font-semibold text-emerald-300 mb-2">Key Points:</h3>
+              <ul class="list-disc pl-5 space-y-1 text-gray-300 text-sm">
+                <li>Minimum withdrawal: KES 200</li>
+                <li>Maximum withdrawal: KES 35,000 per transaction</li>
+                <li>Additional bank charges may apply</li>
+                <li>Available 24/7 at all major bank ATMs</li>
+              </ul>
+            </div>
             <div class="overflow-x-auto">
               <table class="min-w-full divide-y divide-gray-700">
                 <thead>
@@ -290,9 +325,170 @@ const structuredData = [
           </div>
         </div>
       </div>
+      
+      <section class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-xl border border-gray-700 mb-10">
+        <h2 class="text-3xl font-bold mb-8 text-center text-emerald-400">Understanding M-PESA Transaction Costs</h2>
+        <p class="text-gray-300 text-center mb-8 max-w-4xl mx-auto">
+          M-PESA transaction costs vary based on the type of transaction, amount, and service used. Below are the current rates and tips to help you minimize your transaction expenses.
+        </p>
+        <h3 class="text-2xl font-bold mb-6 text-center text-emerald-300">Tips to Reduce Your M-PESA Transaction Costs</h3>
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div>
+            <h3 class="text-lg font-semibold mb-3 text-emerald-300">For Everyone</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Withdraw larger amounts less frequently</span> - The fee per shilling decreases with larger transactions.</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Use M-PESA Paybill for payments</span> - Many businesses accept direct M-PESA payments with lower fees than cash withdrawals.</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Make purchases directly with M-PESA</span> - Many merchants now accept M-PESA payments, eliminating the need for cash.</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Watch for fee promotions</span> - Safaricom occasionally offers reduced or zero-fee withdrawal promotions.</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-3 text-emerald-300">For Businesses & Frequent Users</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Consider bank transfers for large amounts</span> - For amounts over KES 35,000, a bank transfer might be more cost-effective than multiple withdrawals.</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Open a bank account with M-PESA integration</span> - Some banks offer free or low-cost transfers from M-PESA to your account.</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Use M-PESA Business Till</span> - For businesses, this offers better rates and transaction management.</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-300"><span class="font-medium">Compare agent vs ATM fees</span> - Use our calculator above to find the most cost-effective option for your needs.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      
+      <div class="bg-gradient-to-r from-emerald-900/20 to-emerald-800/10 border border-emerald-800 rounded-2xl p-8 mb-8 max-w-5xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto">
+          <h3 class="text-2xl font-bold mb-4 text-emerald-300">Need Help With M-PESA Transactions?</h3>
+          <p class="mb-6 text-lg text-gray-300">Bookmark this page for quick access to the latest M-PESA charges or share it with friends and family in Kenya.</p>
+          <div class="flex flex-wrap justify-center gap-4">
+          <button 
+            onclick="window.print()" 
+            class="bg-emerald-700 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg flex items-center text-sm"
+            aria-label="Print this page"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+            Print
+          </button>
+          <button 
+            id="shareButton"
+            class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center text-sm"
+            aria-label="Share this page"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+            </svg>
+            Share
+          </button>
+          <script>
+            document.getElementById('shareButton').addEventListener('click', async () => {
+              const shareData = {
+                title: document.title,
+                text: 'Check out these M-PESA withdrawal charges and calculator',
+                url: window.location.href
+              };
+              
+              try {
+                if (navigator.share) {
+                  await navigator.share(shareData);
+                } else {
+                  // Fallback: Copy to clipboard and show a message
+                  await navigator.clipboard.writeText(window.location.href);
+                  alert('Link copied to clipboard!');
+                }
+              } catch (err) {
+                // Fallback: Show a prompt with the URL to copy
+                const url = window.location.href;
+                const copied = window.prompt('Copy this URL:', url);
+                if (copied) {
+                  try {
+                    await navigator.clipboard.writeText(url);
+                    alert('Link copied to clipboard!');
+                  } catch (e) {
+                    console.error('Failed to copy URL', e);
+                  }
+                }
+              }
+            });
+          </script>
+          <button 
+            onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center text-sm ml-auto"
+            aria-label="Back to top"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+            </svg>
+            Back to Top
+          </button>
+        </div>
+        </div>
+      </section>
+
+      <!-- Related Services Section -->
+      <section class="mt-12 mb-16">
+        <h2 class="text-2xl font-bold mb-6 text-emerald-400 text-center">Related M-PESA Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <a href="/send-money-charges" class="group block bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border border-gray-700 hover:border-emerald-500 transition-all duration-300 shadow-lg hover:shadow-emerald-900/20">
+            <div class="flex items-center">
+              <div class="bg-emerald-500/10 p-3 rounded-lg mr-4 group-hover:bg-emerald-500/20 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">M-PESA Send Money Charges</h3>
+                <p class="text-sm text-gray-400 mt-1">Calculate exact fees for sending money to other M-PESA users and mobile numbers</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto text-gray-500 group-hover:text-emerald-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </a>
+        </div>
+      </section>
     </div>
   </main>
-
+</Layout>
   <script>
     // Define the fee structures for different withdrawal methods
     const MPESA_AGENT_FEES = [
