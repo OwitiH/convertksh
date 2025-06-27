@@ -6,6 +6,7 @@ interface FAQItem {
 
 const { faqItems, pageUrl = 'https://convertksh.xyz' } = Astro.props;
 
+// Only generate the schema data, don't render it in the HTML
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -13,9 +14,7 @@ const faqStructuredData = {
   "url": pageUrl,
   "mainEntity": faqItems.map((item: FAQItem, index: number) => ({
     "@type": "Question",
-    "@id": `${pageUrl}#faq-${index + 1}`,
-    "position": index + 1,
-    "name": item.question,
+    "name": item.question.trim(),
     "acceptedAnswer": {
       "@type": "Answer",
       "text": item.answer.replace(/\s+/g, ' ').trim()
@@ -23,39 +22,29 @@ const faqStructuredData = {
   }))
 };
 
-// Ensure the FAQ items are properly formatted
+// Format FAQ items for display
 const formattedFaqItems = faqItems.map(item => ({
   ...item,
+  question: item.question.trim(),
   answer: item.answer.trim()
 }));
 ---
 
-<!-- FAQ Schema for Rich Results -->
+<!-- FAQ Schema for Rich Results (JSON-LD only) -->
 <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData, null, 2)} />
 
-<!-- FAQ Content -->
+<!-- FAQ Content (visible to users) -->
 <div class="space-y-6 mt-8">
   {formattedFaqItems.map((item, index) => (
     <div 
       id={`faq-${index + 1}`}
-      itemscope 
-      itemtype="https://schema.org/Question" 
       class="border-b border-gray-700 pb-6 last:border-0 last:pb-0"
     >
-      <h3 
-        itemprop="name" 
-        class="text-lg font-semibold mb-2 cursor-pointer flex justify-between items-center"
-      >
+      <h3 class="text-lg font-semibold mb-2">
         {item.question}
       </h3>
-      <div 
-        itemscope 
-        itemprop="acceptedAnswer" 
-        itemtype="https://schema.org/Answer"
-        class="text-gray-300 mt-2"
-      >
+      <div class="text-gray-300 mt-2">
         <div 
-          itemprop="text"
           class="prose prose-invert max-w-none"
           set:html={item.answer.replace(/\n/g, '<br>')}
         />
