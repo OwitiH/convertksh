@@ -6,13 +6,11 @@ interface FAQItem {
 
 const { faqItems, pageUrl = 'https://convertksh.xyz' } = Astro.props;
 
-// Only generate the schema data, don't render it in the HTML
-const faqStructuredData = {
+// Create the FAQPage schema
+const faqPage = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "@id": `${pageUrl}#faq`,
-  "url": pageUrl,
-  "mainEntity": faqItems.map((item: FAQItem, index: number) => ({
+  "mainEntity": faqItems.map((item: FAQItem) => ({
     "@type": "Question",
     "name": item.question.trim(),
     "acceptedAnswer": {
@@ -24,14 +22,15 @@ const faqStructuredData = {
 
 // Format FAQ items for display
 const formattedFaqItems = faqItems.map(item => ({
-  ...item,
   question: item.question.trim(),
   answer: item.answer.trim()
 }));
 ---
 
 <!-- FAQ Schema for Rich Results (JSON-LD only) -->
-<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData, null, 2)} />
+<script type="application/ld+json">
+  {JSON.stringify(faqPage, null, 2)}
+</script>
 
 <!-- FAQ Content (visible to users) -->
 <div class="space-y-6 mt-8">

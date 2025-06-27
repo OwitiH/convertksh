@@ -192,22 +192,7 @@ const structuredData = {
         <h2 id="faq" class="text-2xl font-bold mb-6 text-emerald-400">Frequently Asked Questions</h2>
         
         <!-- FAQ Content -->
-        <div class="space-y-6">
-          {faqItems.map((item, index) => (
-            <div id={`faq-${index + 1}`} class="border-b border-gray-700 pb-6 last:border-0 last:pb-0">
-              <h3 class="text-lg font-semibold mb-2">{item.question}</h3>
-              <div class="text-gray-300 mt-2">
-                <div class="prose prose-invert max-w-none" set:html={item.answer.replace(/\n/g, '<br>')} />
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <!-- FAQ Schema (JSON-LD only) -->
-        <FAQSchema 
-          faqItems={faqItems} 
-          pageUrl={`https://convertksh.xyz${canonicalUrl}`} 
-        />
+        <FAQSchema faqItems={faqItems} />
         
         <div class="mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700">
           <h4 class="font-medium text-emerald-400 mb-2">Data Source</h4>
