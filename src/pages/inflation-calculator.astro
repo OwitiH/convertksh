@@ -185,18 +185,6 @@ const structuredData = {
           </p>
         </div>
 
-        <div class="mt-8">
-          <h3 class="text-xl font-semibold mb-4 text-emerald-400">Frequently Asked Questions</h3>
-          <FAQSchema faqItems={faqItems} />
-          
-          <div class="mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700">
-            <h4 class="font-medium text-emerald-400 mb-2">Data Source</h4>
-            <p class="text-sm text-gray-300">
-              The inflation data used in this calculator is sourced from the World Bank's official CPI data for Kenya. 
-              Projections for future years are based on economic forecasts and are updated regularly.
-            </p>
-          </div>
-        </div>
       </div>
       
       <!-- FAQ Section -->
@@ -206,6 +194,14 @@ const structuredData = {
           faqItems={faqItems} 
           pageUrl={`https://convertksh.xyz${canonicalUrl}`} 
         />
+        
+        <div class="mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700">
+          <h4 class="font-medium text-emerald-400 mb-2">Data Source</h4>
+          <p class="text-sm text-gray-300">
+            The inflation data used in this calculator is sourced from the World Bank's official CPI data for Kenya. 
+            Projections for future years are based on economic forecasts and are updated regularly.
+          </p>
+        </div>
       </section>
     </div>
   </main>
