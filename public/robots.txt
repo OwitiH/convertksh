@@ -1,3 +1,27 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /404/
+
+# Sitemaps
 Sitemap: https://convertksh.xyz/sitemap-0.xml
+Sitemap: https://convertksh.xyz/sitemap-index.xml
+
+# Crawl-delay: 10
+
+# Additional directives
+Host: https://convertksh.xyz
+
+# Allow all search engines to index the site
+User-agent: Googlebot
+Allow: /*
+
+# Social Media Bots
+User-agent: Twitterbot
+Allow: /*
+
+User-agent: Facebot
+Allow: /*
+
+User-agent: LinkedInBot
+Allow: /*
