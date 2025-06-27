@@ -4,22 +4,62 @@ interface FAQItem {
   answer: string;
 }
 
-const { faqItems } = Astro.props;
+const { faqItems, pageUrl = 'https://convertksh.xyz' } = Astro.props;
 
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "url": "https://convertksh.xyz",
-  "mainEntity": faqItems.map((item: FAQItem) => ({
+  "@id": `${pageUrl}#faq`,
+  "url": pageUrl,
+  "mainEntity": faqItems.map((item: FAQItem, index: number) => ({
     "@type": "Question",
+    "@id": `${pageUrl}#faq-${index + 1}`,
+    "position": index + 1,
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/\s+/g, ' ').trim()
     }
   }))
 };
+
+// Ensure the FAQ items are properly formatted
+const formattedFaqItems = faqItems.map(item => ({
+  ...item,
+  answer: item.answer.trim()
+}));
 ---
 
 <!-- FAQ Schema for Rich Results -->
-<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData, null, 2)} />
+
+<!-- FAQ Content -->
+<div class="space-y-6 mt-8">
+  {formattedFaqItems.map((item, index) => (
+    <div 
+      id={`faq-${index + 1}`}
+      itemscope 
+      itemtype="https://schema.org/Question" 
+      class="border-b border-gray-700 pb-6 last:border-0 last:pb-0"
+    >
+      <h3 
+        itemprop="name" 
+        class="text-lg font-semibold mb-2 cursor-pointer flex justify-between items-center"
+      >
+        {item.question}
+      </h3>
+      <div 
+        itemscope 
+        itemprop="acceptedAnswer" 
+        itemtype="https://schema.org/Answer"
+        class="text-gray-300 mt-2"
+      >
+        <div 
+          itemprop="text"
+          class="prose prose-invert max-w-none"
+          set:html={item.answer.replace(/\n/g, '<br>')}
+        />
+      </div>
+    </div>
+  ))}
+</div>
