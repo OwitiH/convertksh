@@ -40,21 +40,17 @@ const formattedFaqItems = faqItems.map(item => ({
 <script type="application/ld+json" set:html={schemaString} />
 
 <!-- FAQ Content (visible to users) -->
-<div class="space-y-6 mt-8">
+<div class="space-y-6 mt-12 bg-gray-800 p-6 rounded-lg">
+  <h2 class="text-2xl font-bold mb-6 text-emerald-400">Frequently Asked Questions</h2>
   {formattedFaqItems.map((item, index) => (
     <div 
       id={`faq-${index + 1}`}
       class="border-b border-gray-700 pb-6 last:border-0 last:pb-0"
     >
-      <h3 class="text-lg font-semibold mb-2">
+      <h3 class="text-lg font-semibold mb-2 text-white">
         {item.question}
       </h3>
-      <div class="text-gray-300 mt-2">
-        <div 
-          class="prose prose-invert max-w-none"
-          set:html={item.answer.replace(/\n/g, '<br>')}
-        />
-      </div>
+      <p class="text-gray-300">{item.answer}</p>
     </div>
   ))}
 </div>
